@@ -17,7 +17,7 @@ dependencies = [
 md-mermaid-pdf = "src.main:run"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src", "core"]
+packages = ["src", "src/core", "src/core/color"]
 
 [project.optional-dependencies]
 develop = [
