@@ -17,7 +17,7 @@ or
 
 ## Run Script
 ```
-uv run src/main.py
+uv run src/main.py path/to/markdown [path/to/pdf] [css_path] [base_url]
 ```
 
 
