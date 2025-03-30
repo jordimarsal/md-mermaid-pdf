@@ -1,0 +1,41 @@
+[project]
+name = "md-mermaid-pdf"
+version = "0.1.0"
+description = ""
+requires-python = ">=3.10,<=3.13"
+readme = "README.md"
+dependencies = [
+    "click==8.1.3",
+    "colorama==0.4.6",
+    "markupsafe==2.1.5",
+    "md2pdf==1.0.1",
+    "mermaid-py==0.7.1",
+    "requests==2.32.2",
+]
+
+[project.scripts]
+md-mermaid-pdf = "src.main:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src", "core"]
+
+[project.optional-dependencies]
+develop = [
+    "black==25.1.0",
+    "icecream==2.1.4",
+    "mypy==1.15.0",
+    "ruff==0.11.2",
+    "types-colorama==0.4.15.20240311",
+    "types-requests==2.32.0.20240712",
+]
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
+lint.select = ["F", "E", "W", "I", "N", "ARG"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
