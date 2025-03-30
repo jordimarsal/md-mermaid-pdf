@@ -1,0 +1,96 @@
+
+/* Page Style */
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  margin: 0 -30 0 30;
+  padding: 0;
+  background-color: #ffffff;
+  color: #333;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+  color: #2c3e50;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+/* Paragraphs */
+p {
+  margin: 0.5em 0;
+  text-align: justify;
+}
+
+/* Images */
+img {
+  height: auto;
+  display: block;
+  padding: 0;
+  margin: 0 0 0 0;
+  max-width: 38cm; /* A3 height - 2 cm margin */
+  max-height: 25.7cm; /* A3 width - 2 cm margin */
+  page-break-inside: avoid; /* Evita que las imágenes se rompan entre páginas */
+}
+
+/* Centered divs */
+div[style*="text-align: center;"] {
+  text-align: center;
+}
+
+/* links */
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.modern-link {
+  text-decoration: none;
+  color: #3498db; 
+  font-weight: bold;
+  font-family: 'Arial', sans-serif; 
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Lists */
+ul, ol {
+  margin: 1em 0;
+  padding: 0 1em;
+}
+
+@page {
+  size: A3 landscape;
+  size: 420mm 297mm;
+  margin:10mm;
+}
+
+@page short {
+  size: 420mm 230mm; /* A3 short */
+  margin: 10mm;
+}
+
+@page normal {
+  size: 420mm 297mm; /* A3 size */
+  margin: 10mm;
+}
+
+@page taller {
+  size: 420mm 400mm; /* A3 large */
+  margin: 10mm;
+}
+
+.short-page {
+  page: short;
+}
+
+.normal-page {
+  page: normal;
+}
+
+.taller-page {
+  page: taller;
+}
