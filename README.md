@@ -12,21 +12,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 or
 
-pipx install uv
-
-or
-
-pip install uv
-
-or
-
-cargo install --git https://github.com/astral-sh/uv uv
-
-or
-
-brew install uv
+...
 ```
 
+## Run Script
+```
+uv run src/main.py
+```
 
 
 

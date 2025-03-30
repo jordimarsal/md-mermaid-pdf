@@ -1,4 +1,4 @@
-from color import Color, colour
+from .color import Color, colour
 
 
 def print_dbg(message: str) -> None:
