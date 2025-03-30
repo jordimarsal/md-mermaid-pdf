@@ -32,8 +32,7 @@ def check_path(path: str, path_type: str, expected_type: str) -> None:
     error_message = f"Error: {path_type} not found at {p}"
 
     if expected_type == FILE:
-        if not p.exists() or not p.is_file():
+        if not (p.exists() and p.is_file()):
             ErrorHandler.print_error_and_exit(error_message)
-    elif expected_type == DIR:
-        if not p.exists() or not p.is_dir():
+    elif expected_type == DIR and not (p.exists() and p.is_dir()):
             ErrorHandler.print_error_and_exit(error_message)

@@ -10,7 +10,7 @@ from core.validation import cli_settings
 
 @click.command()
 @click.argument("md_path", type=str, required=True)
-@click.argument("pdf_path", type=str, required=True)
+@click.argument("pdf_path", type=str, required=False)
 @click.argument("css_path", type=str, required=False)
 @click.argument("base_url", type=str, required=False)
 def run(md_path: str, pdf_path: str, css_path: str, base_url: str) -> None:
