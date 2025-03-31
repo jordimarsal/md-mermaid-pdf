@@ -6,6 +6,7 @@ import click
 
 from core.models import ErrorHandler, PdfCfg, PdfOptions
 from core.validation import cli_settings
+from markdown.processor import MarkdownProcessor
 
 
 @click.command()
@@ -13,8 +14,9 @@ from core.validation import cli_settings
 @click.argument("pdf_path", type=str, required=False)
 @click.argument("css_path", type=str, required=False)
 @click.argument("base_url", type=str, required=False)
-def run(md_path: str, pdf_path: str, css_path: str, base_url: str) -> None:
-    op = PdfOptions(md_path, pdf_path, css_path, base_url)
+@click.option("--debug", is_flag=True, help="Enable debug mode.")
+def run(md_path: str, pdf_path: str, css_path: str, base_url: str, debug:bool) -> None:
+    op = PdfOptions(md_path, pdf_path, css_path, base_url, debug)
     cfg = cli_settings(op)
 
     main(cfg)
@@ -25,7 +27,7 @@ def main(cfg: PdfCfg) -> None:
         markdown_content = f.read()
     f.close()
 
-    # processor = MarkdownProcessor(cfg)
+    processor = MarkdownProcessor(cfg)
     # converter = PdfConverter(cfg, processor)
     # converter.convert_to_pdf(markdown_content)
     ErrorHandler.print_errors()

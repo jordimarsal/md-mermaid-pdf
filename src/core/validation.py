@@ -23,7 +23,7 @@ def cli_settings(ops: PdfOptions) -> PdfCfg:
     else:
         ops.base_url = str(Constants.SCRIPT_PATH / "img")
 
-    return PdfCfg(ops.md_path, ops.pdf_path, ops.css_path, ops.base_url, ops.debug, ops.docker)
+    return PdfCfg(ops.md_path, ops.pdf_path, ops.css_path, ops.base_url, ops.debug)
 
 
 def check_path(path: str, path_type: str, expected_type: str) -> None:
@@ -35,4 +35,4 @@ def check_path(path: str, path_type: str, expected_type: str) -> None:
         if not (p.exists() and p.is_file()):
             ErrorHandler.print_error_and_exit(error_message)
     elif expected_type == DIR and not (p.exists() and p.is_dir()):
-            ErrorHandler.print_error_and_exit(error_message)
+        ErrorHandler.print_error_and_exit(error_message)
