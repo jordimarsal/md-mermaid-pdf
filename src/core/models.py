@@ -15,8 +15,7 @@ class PdfOptions:
     pdf_path: str
     css_path: str
     base_url: str
-    debug: bool
-    docker: bool
+    debug: bool = False
 
 
 # region PdfCfg
@@ -25,12 +24,13 @@ class PdfOptions:
 class PdfCfg:
     """Dto Configuration for the PDF renderer."""
 
-    def __init__(self, md_path: str, pdf_path: str, css_path: str, base_url: str) -> None:
+    def __init__(self, md_path: str, pdf_path: str, css_path: str, base_url: str, debug:bool) -> None:
         self.md_path = md_path
         self.pdf_path = pdf_path
         self.css_path = css_path
         self.base_url = base_url
         self.tmp_md_path = f"{Constants.SCRIPT_PATH}/output/output_temp.md"
+        self.is_debug = debug
 
 
 # region ErrorHandler
