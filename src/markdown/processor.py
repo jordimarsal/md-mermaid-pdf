@@ -86,36 +86,8 @@ class MarkdownProcessor:
         if len(parts) == 1:
             return str(html_content)
 
-        wrapped_content = []
-
-        for i in range(len(parts) - 1):
-            # get the svg file name for this part
-            svg_file = re.search(r'src="([^"]+)"', parts[i])
-            if svg_file:
-                svg_file_gr = svg_file.group(1)
-                if svg_file_gr is None or "No response" in svg_file_gr:
-                    wrapped_content.append(parts[i])
-                    wrapped_content.append(Constants.DIV_BREAK_AFTER)
-                    continue
-                svg_file_ = self._leaf_last(svg_file_gr)
-                height = length_mermaid[svg_file_]
-                if height < 400 and i > 0 and self._count_li_tags(parts[i]) < 4:
-                    wrapped_content.append('<div class="short-page">')
-                if height > 600:
-                    wrapped_content.append('<div class="taller-page">')
-            else:
-                wrapped_content.append('<div class="normal-page">')
-            wrapped_content.append(parts[i])
-            wrapped_content.append("</div>")
-            wrapped_content.append(Constants.DIV_BREAK_AFTER)
-        # remove last div
-        wrapped_content.pop()
+        wrapped_content = self._process_parts(parts, length_mermaid)
         return "".join(wrapped_content)
-
-    def _convert_markdown_to_html(self, content: str) -> str:
-        """Convert Markdown content to HTML and clean unnecessary tags."""
-        html_content = markdown2.markdown(content)
-        return re.sub(r"<p>\s*<br\s*/?>\s*</p>", "", html_content, flags=re.IGNORECASE)
 
     def _process_parts(self, parts: list[str], length_mermaid: dict[str, int]) -> list[str]:
         """Process each part of the content and wrap it with appropriate divs."""
@@ -134,6 +106,37 @@ class MarkdownProcessor:
         # Remove the last unnecessary div break
         wrapped_content.pop()
         return wrapped_content
+
+    def _extract_svg_file(self, part: str) -> str | None:
+        """Extract the SVG file name from the given part."""
+        match = re.search(r'src="([^"]+)"', part)
+        return match.group(1) if match else None
+
+    def _handle_svg_file(
+        self, svg_file: str, part: str, wrapped_content: list[str], len_mmd: dict[str, int], index: int
+    ) -> None:
+        """Handle wrapping logic for parts containing SVG files."""
+        if svg_file is None or "No response" in svg_file:
+            wrapped_content.append(part)
+            wrapped_content.append(Constants.DIV_BREAK_AFTER)
+            return
+        svg_file_name = self._leaf_last(svg_file)
+        height = len_mmd[svg_file_name]
+
+        if height < 400 and index > 0 and self._count_li_tags(part) < 4:
+            wrapped_content.append('<div class="short-page">')
+        elif height > 600:
+            wrapped_content.append('<div class="taller-page">')
+        else:
+            wrapped_content.append('<div class="normal-page">')
+
+        wrapped_content.append(part)
+        wrapped_content.append("</div>")
+
+    def _convert_markdown_to_html(self, content: str) -> str:
+        """Convert Markdown content to HTML and clean unnecessary tags."""
+        html_content = markdown2.markdown(content)
+        return re.sub(r"<p>\s*<br\s*/?>\s*</p>", "", html_content, flags=re.IGNORECASE)
 
     def _leaf_last(self, file_path: str) -> str:
         """Return the last part of a file path."""
