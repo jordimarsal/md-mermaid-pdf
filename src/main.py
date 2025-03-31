@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python3
+#!/usr/bin/python
 
 
 import click
@@ -15,7 +15,7 @@ from markdown.processor import MarkdownProcessor
 @click.argument("css_path", type=str, required=False)
 @click.argument("base_url", type=str, required=False)
 @click.option("--debug", is_flag=True, help="Enable debug mode.")
-def run(md_path: str, pdf_path: str, css_path: str, base_url: str, debug:bool) -> None:
+def run(md_path: str, pdf_path: str, css_path: str, base_url: str, debug: bool) -> None:
     op = PdfOptions(md_path, pdf_path, css_path, base_url, debug)
     cfg = cli_settings(op)
 

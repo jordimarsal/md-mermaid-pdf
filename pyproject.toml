@@ -5,6 +5,7 @@ description = ""
 requires-python = ">=3.10,<=3.13"
 readme = "README.md"
 dependencies = [
+    "pip>=25.0",
     "click==8.1.8",
     "colorama==0.4.6",
     "ipython>=8.34.0",
@@ -17,7 +18,13 @@ dependencies = [
     "types-colorama>=0.4.15.20240311",
     "types-markdown>=3.7.0.20250322",
     "types-tqdm>=4.67.0.20250319",
+    "types-requests==2.32.0.20240712",
+    "black==25.1.0",
+    "icecream==2.1.4",
+    "mypy==1.15.0",
+    "ruff==0.11.2",
 ]
+
 
 [project.scripts]
 md-mermaid-pdf = "src.main:run"
@@ -26,14 +33,7 @@ md-mermaid-pdf = "src.main:run"
 packages = ["src", "src/core", "src/core/color"]
 
 [project.optional-dependencies]
-develop = [
-    "black==25.1.0",
-    "icecream==2.1.4",
-    "mypy==1.15.0",
-    "ruff==0.11.2",
-    "types-colorama==0.4.15.20240311",
-    "types-requests==2.32.0.20240712",
-]
+
 
 [tool.black]
 line-length = 120
