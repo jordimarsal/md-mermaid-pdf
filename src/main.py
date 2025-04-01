@@ -4,9 +4,10 @@
 
 import click
 
-from core.models import ErrorHandler, PdfCfg, PdfOptions
-from core.validation import cli_settings
-from markdown.processor import MarkdownProcessor
+from src.core.models import ErrorHandler, PdfCfg, PdfOptions
+from src.core.validation import cli_settings
+from src.markdown.processor import MarkdownProcessor
+from src.pdf.converter import PdfConverter
 
 
 @click.command()
@@ -28,8 +29,8 @@ def main(cfg: PdfCfg) -> None:
     f.close()
 
     processor = MarkdownProcessor(cfg)
-    # converter = PdfConverter(cfg, processor)
-    # converter.convert_to_pdf(markdown_content)
+    converter = PdfConverter(cfg, processor)
+    converter.convert_to_pdf(markdown_content)
     ErrorHandler.print_errors()
 
 
