@@ -1,4 +1,4 @@
-from core.constants import Constants
+from src.core.constants import Constants
 
 # region ImageSkeletonBuilder
 
