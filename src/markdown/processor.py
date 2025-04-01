@@ -91,7 +91,7 @@ class MarkdownProcessor:
 
     def _process_parts(self, parts: list[str], length_mermaid: dict[str, int]) -> list[str]:
         """Process each part of the content and wrap it with appropriate divs."""
-        wrapped_content: list[str]= []
+        wrapped_content: list[str] = []
 
         for i in range(len(parts) - 1):
             svg_file = self._extract_svg_file(parts[i])
