@@ -22,6 +22,7 @@ class PdfConverter:
 
         # Temp file to store the processed Markdown
         temp = self.cfg.tmp_md_path
+        os.makedirs(os.path.dirname(temp), exist_ok=True)
         with open(temp, "w") as f:
             f.write(processed_content)
         f.close()

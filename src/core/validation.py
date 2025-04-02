@@ -17,7 +17,7 @@ def cli_settings(ops: PdfOptions) -> PdfCfg:
     if ops.css_path:
         check_path(ops.css_path, "CSS file", FILE)
     else:
-        ops.css_path = str(Constants.SCRIPT_PATH / "style.css")
+        ops.css_path = str(Constants.SCRIPT_PATH / "resources" / "style.css")
     if ops.base_url:
         check_path(ops.base_url, "Base URL", DIR)
     else:

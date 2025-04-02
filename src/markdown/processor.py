@@ -40,7 +40,7 @@ class MarkdownProcessor:
                 bar_format="{l_bar} {bar:50}",
             )
         ):
-            enpoint = self._get_current_enpoint(md_content, code, "Endpoint:")
+            enpoint = self._get_current_enpoint(md_content, code, "Endpoint:", i)
             clean_code = self._get_clean_code(code)
             image_files, heights = self.renderer.render(i, clean_code, self.cfg.base_url, enpoint)
             svg_files.extend(image_files)
@@ -62,7 +62,7 @@ class MarkdownProcessor:
         """Get the clean code by replacing '?' characters that bugs the mermaid.ink endpoints."""
         return code.replace("?", "+").strip()
 
-    def _get_current_enpoint(self, content: str, code: str, search: str) -> str:
+    def _get_current_enpoint(self, content: str, code: str, search: str, i: int) -> str:
         """Get the previous line of mermaid code. This is the current endpoint name."""
         section = f"```mermaid{code}```"
         previous_line = ""
@@ -74,7 +74,10 @@ class MarkdownProcessor:
             if search in line:
                 previous_line = line
                 break
-        endpoint = previous_line.split(":")[1].strip()
+        if search in previous_line:
+            endpoint = previous_line.split(":")[1].strip()
+        else:
+            endpoint = f"Endpoint_{i}"
         return endpoint
 
     def _wrap_intervals_with_div(self, content: str, length_mermaid: dict[str, int]) -> str:
