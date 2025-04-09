@@ -87,6 +87,8 @@ class MermaidRenderer:
         """Get the header of the Mermaid code until the last participant."""
         pattern = "participant .*"
         participants = re.findall(pattern, code)
+        if not participants:
+            return ""
         last_participant = participants[-1]
         header = code.split(last_participant)[0] + last_participant + "\n"
         return str(header)
