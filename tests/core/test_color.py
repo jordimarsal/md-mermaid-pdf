@@ -26,7 +26,7 @@ class TestColor(unittest.TestCase):
     def test_colour_with_enabled(self) -> None:
         """Comprova que la funció colour afegeix els codis de color quan està habilitat."""
         result = colour(Color.RED, "Test text")
-        expected = f"{Fore.RED}Test text{Fore.RESET}{Fore.RESET}"
+        expected = f"{Fore.RED}Test text{Fore.RESET}"
         self.assertEqual(result, expected)
 
     def test_colour_with_disabled(self) -> None:
@@ -39,7 +39,7 @@ class TestColor(unittest.TestCase):
         """Comprova que la funció colour afegeix codis de color quan force_color és True."""
         Color.disable()
         result = colour(Color.RED, "Test text", force_color=True)
-        expected = f"{Fore.RED}Test text{Fore.RESET}{Fore.RESET}"
+        expected = f"{Fore.RED}Test text{Fore.RESET}"
         self.assertEqual(result, expected)
 
 
