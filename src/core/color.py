@@ -45,4 +45,4 @@ class Color:
 
 
 def colour(color: str, text: str, force_color: bool = False) -> str:
-    return f"{color}{text}{Fore.RESET}{Fore.RESET}" if Color.is_enabled() or force_color else text
+    return f"{color}{text}{Fore.RESET}" if Color.is_enabled() or force_color else text
