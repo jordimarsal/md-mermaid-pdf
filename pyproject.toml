@@ -1,4 +1,5 @@
 [project]
+authors = [{name = "Jordi Marçal",email="marcaljordi@gmail.com"}]
 name = "md-mermaid-pdf"
 version = "0.1.0"
 description = ""
@@ -13,7 +14,7 @@ dependencies = [
     "markupsafe==2.1.5",
     "md2pdf==1.0.1",
     "mermaid-py==0.7.1",
-    "requests==2.32.2",
+    "requests==2.32.3",
     "tqdm>=4.67.1",
     "types-colorama>=0.4.15.20240311",
     "types-markdown>=3.7.0.20250322",
@@ -22,11 +23,14 @@ dependencies = [
     "black==25.1.0",
     "icecream==2.1.4",
     "mypy==1.15.0",
-    "ruff==0.11.2",
+    "ruff==0.11.6",
     "types-click>=7.1.8",
     "pytest>=8.3.5",
-    "coverage==7.2.0",
+    "coverage==7.8.0",
 ]
+license = {text = "MIT"}
+keywords = ["markdown", "mermaid", "pdf", "cli"]
+classifiers = ['Programming Language :: Python :: 3', 'License :: OSI Approved :: MIT License', 'Operating System :: OS Independent']
 
 
 [project.scripts]
