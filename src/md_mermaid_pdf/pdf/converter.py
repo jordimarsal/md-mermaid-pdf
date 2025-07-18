@@ -2,8 +2,8 @@ import os
 
 from md2pdf import md2pdf
 
-from src.core.models import PdfCfg
-from src.markdown.processor import MarkdownProcessor
+from src.md_mermaid_pdf.core.models import PdfCfg
+from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
 
 class PdfConverter:

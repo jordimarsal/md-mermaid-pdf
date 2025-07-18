@@ -4,8 +4,8 @@ from typing import Any
 
 from mermaid import Graph, Mermaid
 
-from src.core.models import ErrorHandler, PdfCfg
-from src.core.utils import print_dbg
+from src.md_mermaid_pdf.core.models import ErrorHandler, PdfCfg
+from src.md_mermaid_pdf.core.utils import print_dbg
 
 DIV_BREAK_AFTER = '<div style="page-break-after: always;"></div>'
 

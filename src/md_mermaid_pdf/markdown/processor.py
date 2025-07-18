@@ -3,11 +3,11 @@ import re
 import markdown2
 from tqdm import tqdm
 
-from src.core.constants import Constants, MDContent
-from src.core.models import PdfCfg
+from src.md_mermaid_pdf.core.constants import Constants, MDContent
+from src.md_mermaid_pdf.core.models import PdfCfg
 
-from .image import ImageSkeletonBuilder
-from .mermaid import MermaidRenderer
+from src.md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
+from src.md_mermaid_pdf.markdown.mermaid import MermaidRenderer
 
 # region MarkdownProcessor
 

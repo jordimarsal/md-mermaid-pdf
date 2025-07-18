@@ -1,4 +1,4 @@
-from .color import Color, colour
+from src.md_mermaid_pdf.core.color import Color, colour
 
 
 def print_dbg(message: str) -> None:

@@ -4,10 +4,10 @@
 
 import click
 
-from src.core.models import ErrorHandler, PdfCfg, PdfOptions
-from src.core.validation import cli_settings
-from src.markdown.processor import MarkdownProcessor
-from src.pdf.converter import PdfConverter
+from src.md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
+from src.md_mermaid_pdf.core.validation import cli_settings
+from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
+from src.md_mermaid_pdf.pdf.converter import PdfConverter
 
 
 @click.command()
@@ -26,7 +26,6 @@ def run(md_path: str, pdf_path: str, css_path: str, base_url: str, debug: bool) 
 def main(cfg: PdfCfg) -> None:
     with open(cfg.md_path) as f:
         markdown_content = f.read()
-    f.close()
 
     processor = MarkdownProcessor(cfg)
     converter = PdfConverter(cfg, processor)

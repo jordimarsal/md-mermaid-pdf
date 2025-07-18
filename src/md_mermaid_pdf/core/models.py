@@ -1,8 +1,8 @@
 import sys
 from dataclasses import dataclass
 
-from .constants import Constants
-from .utils import print_error
+from src.md_mermaid_pdf.core.constants import Constants
+from src.md_mermaid_pdf.core.utils import print_error
 
 # region PdfOptions
 

@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from .constants import Constants
-from .models import ErrorHandler, PdfCfg, PdfOptions
+from src.md_mermaid_pdf.core.constants import Constants
+from src.md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
 
 FILE = "file"
 DIR = "dir"
