@@ -2,8 +2,8 @@ import logging
 from pathlib import Path
 
 from md2pdf import md2pdf
-from md_mermaid_pdf.core.config import PdfConfig
 
+from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.core.exceptions import FileOperationError
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
