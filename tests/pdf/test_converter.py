@@ -4,8 +4,8 @@ from typing import Any
 from unittest.mock import mock_open, patch
 
 from src.core.models import PdfCfg
-from src.markdown.processor import MarkdownProcessor
-from src.pdf.converter import PdfConverter
+from md_mermaid_pdf.markdown.processor import MarkdownProcessor
+from md_mermaid_pdf.pdf.converter import PdfConverter
 
 
 class TestPdfConverter(unittest.TestCase):

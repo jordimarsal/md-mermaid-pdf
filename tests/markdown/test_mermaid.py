@@ -3,7 +3,7 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 from src.core.models import PdfCfg
-from src.markdown.mermaid import MermaidRenderer, MermaidWrapper
+from md_mermaid_pdf.markdown.mermaid import MermaidRenderer, MermaidWrapper
 
 
 class TestMermaidWrapper(unittest.TestCase):

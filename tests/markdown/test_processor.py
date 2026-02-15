@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from src.core.models import PdfCfg
-from src.markdown.processor import MarkdownProcessor
+from md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
 
 class TestMarkdownProcessor(unittest.TestCase):

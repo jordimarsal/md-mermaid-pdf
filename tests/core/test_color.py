@@ -1,7 +1,7 @@
 import unittest
 
 from colorama import Fore
-from src.core.color import RED, colour, disable_colors, enable_colors, is_enabled
+from md_mermaid_pdf.core.color import RED, colour, disable_colors, enable_colors, is_enabled
 
 
 class TestColor(unittest.TestCase):

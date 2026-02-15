@@ -2,7 +2,7 @@ import unittest
 from typing import Any
 from unittest.mock import patch
 
-from src.core.utils import print_dbg, print_error
+from md_mermaid_pdf.core.utils import print_dbg, print_error
 
 
 class TestUtils(unittest.TestCase):

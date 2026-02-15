@@ -2,8 +2,8 @@ import unittest
 from typing import Any
 from unittest.mock import patch
 
-from src.core.constants import Constants
-from src.core.models import ErrorHandler, PdfCfg, PdfOptions
+from md_mermaid_pdf.core.constants import Constants
+from md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
 
 
 class TestPdfOptions(unittest.TestCase):
