@@ -2,7 +2,7 @@ from pathlib import Path
 
 from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.core.constants import Constants
-from md_mermaid_pdf.core.models import ErrorCollector
+from md_mermaid_pdf.core.exceptions import ConfigValidationError
 
 # region cli_settings
 
@@ -45,13 +45,15 @@ def check_path(path: str, path_type: str, expected_type: str) -> None:
         path: The path to check.
         path_type: Description of the path type for error messages.
         expected_type: The expected type (Constants.FILE or Constants.DIR).
+
+    Raises:
+        ConfigValidationError: If the path doesn't exist or is not of the expected type.
     """
     p = Path(path)
-    error_message = f"Error: {path_type} not found at {p}"
-    error_handler = ErrorCollector()
 
     if expected_type == Constants.FILE:
         if not (p.exists() and p.is_file()):
-            error_handler.print_error_and_exit(error_message)
-    elif expected_type == Constants.DIR and not (p.exists() and p.is_dir()):
-        error_handler.print_error_and_exit(error_message)
+            raise ConfigValidationError(f"{path_type} not found at {p}", "path")
+    elif expected_type == Constants.DIR:
+        if not (p.exists() and p.is_dir()):
+            raise ConfigValidationError(f"{path_type} not found at {p}", "path")

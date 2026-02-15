@@ -9,11 +9,25 @@ from pathlib import Path
 
 @dataclass
 class RenderingConfig:
-    """Configuration for diagram rendering."""
+    """Configuration for diagram rendering and page layout.
+
+    Attributes:
+        chunk_size: Maximum lines per Mermaid diagram chunk.
+        small_threshold: Height threshold for small diagrams.
+        medium_threshold: Height threshold for medium diagrams.
+        tall_threshold: Height threshold for tall diagrams.
+        max_list_items_short_page: Maximum list items for short page layout.
+    """
 
     chunk_size: int = 50
     small_threshold: int = 150
     medium_threshold: int = 400
+    tall_threshold: int = 600
+    max_list_items_short_page: int = 4
+
+
+# Default rendering configuration instance
+DEFAULT_RENDERING_CONFIG = RenderingConfig()
 
 
 @dataclass

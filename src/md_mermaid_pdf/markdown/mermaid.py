@@ -4,7 +4,7 @@ from typing import Any
 
 from mermaid import Graph, Mermaid
 
-from md_mermaid_pdf.core.config import PdfConfig
+from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG, PdfConfig
 from md_mermaid_pdf.core.interfaces import DiagramRenderer
 from md_mermaid_pdf.core.models import ErrorHandler  # Backward compatibility alias
 from md_mermaid_pdf.core.utils import print_dbg
@@ -74,13 +74,14 @@ class MermaidRenderer(DiagramRenderer):
         code_lines = code.split("\n")
         svg_files = []
         heights = []
-        num_chuncks = math.ceil(len(code_lines) / 50.0)
+        chunk_size = DEFAULT_RENDERING_CONFIG.chunk_size
+        num_chunks = math.ceil(len(code_lines) / float(chunk_size))
 
-        header = self._get_header(code) if num_chuncks > 1 else ""
-        for i in range(0, len(code_lines), 50):
+        header = self._get_header(code) if num_chunks > 1 else ""
+        for i in range(0, len(code_lines), chunk_size):
             pre = header if i > 0 else ""
-            chunk = pre + "\n".join(code_lines[i : i + 50])
-            suffix = f"_{i//50}" if num_chuncks > 1 else ""
+            chunk = pre + "\n".join(code_lines[i : i + chunk_size])
+            suffix = f"_{i//chunk_size}" if num_chunks > 1 else ""
             svg_file = f"diagram_{index}{suffix}.svg"
             image_file = self._render_mermaid(chunk, base_url + "/" + svg_file, endpoint)
             svg_files.append(image_file)

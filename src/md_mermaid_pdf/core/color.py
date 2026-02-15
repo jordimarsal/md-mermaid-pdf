@@ -28,33 +28,95 @@ LIGHTCYAN = "\033[96m"
 LIGHTRED = "\033[91m"
 LIGHTMAGENTA = "\033[95m"
 
-# Private state for color enable/disable
-_enabled = True
+
+class ColorConfig:
+    """Configuration for color output.
+
+    This class provides a thread-safe way to manage color output
+    configuration without global state.
+    """
+
+    def __init__(self, enabled: bool = True) -> None:
+        """Initialize color configuration.
+
+        Args:
+            enabled: Whether colors are enabled by default.
+        """
+        self._enabled = enabled
+
+    @property
+    def enabled(self) -> bool:
+        """Check if colors are enabled.
+
+        Returns:
+            True if colors are enabled, False otherwise.
+        """
+        return self._enabled
+
+    @enabled.setter
+    def enabled(self, value: bool) -> None:
+        """Enable or disable colors.
+
+        Args:
+            value: True to enable, False to disable.
+        """
+        self._enabled = value
+
+    def enable(self) -> None:
+        """Enable colored output."""
+        self._enabled = True
+
+    def disable(self) -> None:
+        """Disable colored output."""
+        self._enabled = False
+
+    def colour(self, color: str, text: str, force_color: bool = False) -> str:
+        """Apply color to text.
+
+        Args:
+            color: The color code to apply.
+            text: The text to colorize.
+            force_color: If True, apply color even if disabled.
+
+        Returns:
+            The colorized text, or plain text if colors are disabled.
+        """
+        return f"{color}{text}{Fore.RESET}" if self._enabled or force_color else text
+
+
+# Default global instance for backward compatibility
+_default_config = ColorConfig(enabled=True)
 
 
 def enable_colors() -> None:
-    """Enable colored output."""
-    global _enabled
-    _enabled = True
+    """Enable colored output (uses default config).
+
+    Deprecated: Use ColorConfig instance directly for new code.
+    """
+    _default_config.enable()
 
 
 def disable_colors() -> None:
-    """Disable colored output."""
-    global _enabled
-    _enabled = False
+    """Disable colored output (uses default config).
+
+    Deprecated: Use ColorConfig instance directly for new code.
+    """
+    _default_config.disable()
 
 
 def is_enabled() -> bool:
-    """Check if colored output is enabled.
+    """Check if colored output is enabled (uses default config).
 
     Returns:
         True if colors are enabled, False otherwise.
+
+    Deprecated: Use ColorConfig instance directly for new code.
     """
-    return _enabled
+    return _default_config.enabled
 
 
 def colour(color: str, text: str, force_color: bool = False) -> str:
-    """Apply color to text.
+    """Apply color to text (uses default config).
 
     Args:
         color: The color code to apply.
@@ -64,4 +126,4 @@ def colour(color: str, text: str, force_color: bool = False) -> str:
     Returns:
         The colorized text, or plain text if colors are disabled.
     """
-    return f"{color}{text}{Fore.RESET}" if _enabled or force_color else text
+    return _default_config.colour(color, text, force_color)

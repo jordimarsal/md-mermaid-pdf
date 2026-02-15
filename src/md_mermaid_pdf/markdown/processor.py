@@ -4,7 +4,7 @@ import re
 import markdown2
 from tqdm import tqdm
 
-from md_mermaid_pdf.core.config import PdfConfig
+from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG, PdfConfig
 from md_mermaid_pdf.core.constants import Constants, MDContent
 from md_mermaid_pdf.core.interfaces import MarkdownProcessor as MarkdownProcessorABC
 from md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
@@ -150,9 +150,13 @@ class MarkdownProcessor(MarkdownProcessorABC):
         svg_file_name = self._leaf_last(svg_file)
         height = len_mmd[svg_file_name]
 
-        if height < 400 and index > 0 and self._count_li_tags(part) < 4:
+        if (
+            height < DEFAULT_RENDERING_CONFIG.medium_threshold
+            and index > 0
+            and self._count_li_tags(part) < DEFAULT_RENDERING_CONFIG.max_list_items_short_page
+        ):
             wrapped_content.append('<div class="short-page">')
-        elif height > 600:
+        elif height > DEFAULT_RENDERING_CONFIG.tall_threshold:
             wrapped_content.append('<div class="taller-page">')
         else:
             wrapped_content.append('<div class="normal-page">')

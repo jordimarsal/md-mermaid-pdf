@@ -6,27 +6,14 @@ description = ""
 requires-python = ">=3.11,<=3.14"
 readme = "README.md"
 dependencies = [
-    "pip>=26.0.1",
-    "click==8.3.1",
-    "colorama==0.4.6",
-    "ipython>=9.10.0",
+    "click>=8.3.1",
+    "colorama>=0.4.6",
     "markdown2>=2.5.4",
-    "markupsafe==3.0.3",
-    "md2pdf==3.1.0",
-    "mermaid-py==0.8.3",
-    "requests==2.32.5",
+    "markupsafe>=3.0.3",
+    "md2pdf>=3.1.0",
+    "mermaid-py>=0.8.3",
+    "requests>=2.32.5",
     "tqdm>=4.67.3",
-    "types-colorama>=0.4.15.20250801",
-    "types-markdown>=3.10.2.20260211",
-    "types-tqdm>=4.67.3.20260205",
-    "types-requests==2.32.4.20260107",
-    "black==26.1.0",
-    "icecream==2.1.10",
-    "mypy==1.19.1",
-    "ruff==0.15.1",
-    "types-click>=7.1.8",
-    "pytest>=9.0.2",
-    "coverage==7.13.4",
 ]
 license = {text = "MIT"}
 keywords = ["markdown", "mermaid", "pdf", "cli"]
@@ -40,6 +27,24 @@ md-mermaid-pdf = "src.main:run"
 packages = ["src", "src/core", "src/core/color"]
 
 [project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=9.0.2",
+    "coverage>=7.13.4",
+    # Type checking
+    "mypy>=1.19.1",
+    "types-click>=7.1.8",
+    "types-colorama>=0.4.15.20250801",
+    "types-markdown>=3.10.2.20260211",
+    "types-requests>=2.32.4.20260107",
+    "types-tqdm>=4.67.3.20260205",
+    # Code quality
+    "black>=26.1.0",
+    "ruff>=0.15.1",
+    # Development tools
+    "ipython>=9.10.0",
+    "icecream>=2.1.10",
+]
 
 
 [tool.black]

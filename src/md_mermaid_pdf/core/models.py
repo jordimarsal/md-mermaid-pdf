@@ -1,4 +1,3 @@
-import sys
 from dataclasses import dataclass
 
 from md_mermaid_pdf.core.interfaces import ErrorHandler as ErrorHandlerABC
@@ -42,15 +41,14 @@ class ErrorCollector(ErrorHandlerABC):
         """
         self.add_error(f"{context}: {error}")
 
-    def print_error_and_exit(self, err_message: str | None = None) -> None:
-        """Print the error message and exit with code 1.
+    def print_error(self, err_message: str | None = None) -> None:
+        """Print the error message.
 
         Args:
             err_message: The error message to print. If None, no action is taken.
         """
         if err_message:
             print_error(err_message)
-            sys.exit(1)
 
     def add_error(self, msg: str) -> None:
         """Add an error message to the list of errors.
@@ -61,10 +59,31 @@ class ErrorCollector(ErrorHandlerABC):
         self._errors.append(msg)
 
     def print_errors(self) -> None:
-        """Print all the errors and exit with code 1."""
+        """Print all collected errors."""
         if self._errors:
             for error in self._errors:
                 print_error(error)
+
+    def has_errors(self) -> bool:
+        """Check if there are any collected errors.
+
+        Returns:
+            True if there are errors, False otherwise.
+        """
+        return len(self._errors) > 0
+
+    def print_error_and_exit(self, err_message: str | None = None) -> None:
+        """Print the error message and exit with code 1.
+
+        Deprecated: Use print_error() and handle exit at the top level.
+
+        Args:
+            err_message: The error message to print.
+        """
+        import sys
+
+        self.print_error(err_message)
+        if err_message:
             sys.exit(1)
 
     @property

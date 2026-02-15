@@ -1,3 +1,4 @@
+from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG
 from md_mermaid_pdf.core.constants import Constants
 
 # region ImageSkeletonBuilder
@@ -40,8 +41,8 @@ class ImageSkeletonBuilder:
             self.style_bigs = ', style="min-width: 90%;"'
 
     def _build_image_tag(self) -> str:
-        if self.height < 150:
+        if self.height < DEFAULT_RENDERING_CONFIG.small_threshold:
             return self.prefix + f'<img src="{self.uri}", style="max-height: 40%; width: 90%;">' + self.suffix
-        if self.height < 400:
+        if self.height < DEFAULT_RENDERING_CONFIG.medium_threshold:
             return self.prefix + f'<img src="{self.uri}", style="max-height: 60%; width: 90%;">' + self.suffix
         return self.prefix + f'<img src="{self.uri}"{self.style_bigs}>' + self.suffix

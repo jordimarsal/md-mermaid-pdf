@@ -8,6 +8,8 @@ import re
 
 import markdown2
 
+from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG
+
 
 class MarkdownToHtmlConverter:
     """Convert markdown content to HTML."""
@@ -94,9 +96,9 @@ class HtmlPageWrapper:
         Returns:
             The style string.
         """
-        if height < 150:
+        if height < DEFAULT_RENDERING_CONFIG.small_threshold:
             return 'style="max-height: 40%; width: 90%;"'
-        elif height < 400:
+        elif height < DEFAULT_RENDERING_CONFIG.medium_threshold:
             return 'style="max-height: 60%; width: 90%;"'
         else:
             return 'style="max-height: 80%; width: 90%;"'

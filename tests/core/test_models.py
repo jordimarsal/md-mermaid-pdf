@@ -61,14 +61,26 @@ class TestErrorCollector(unittest.TestCase):
         self.assertIn("Test error", self.error_handler.errors)
 
     @patch("md_mermaid_pdf.core.models.print_error")
-    @patch("sys.exit")
-    def test_print_errors(self, mock_exit: Any, mock_print_error: Any) -> None:
-        """Check that print_errors prints all errors and exits with code 1."""
+    def test_print_errors(self, mock_print_error: Any) -> None:
+        """Check that print_errors prints all errors."""
         self.error_handler.add_error("Error 1")
         self.error_handler.add_error("Error 2")
         self.error_handler.print_errors()
         mock_print_error.assert_any_call("Error 1")
         mock_print_error.assert_any_call("Error 2")
+
+    def test_has_errors(self) -> None:
+        """Check that has_errors returns True when there are errors."""
+        self.assertFalse(self.error_handler.has_errors())
+        self.error_handler.add_error("Test error")
+        self.assertTrue(self.error_handler.has_errors())
+
+    @patch("md_mermaid_pdf.core.models.print_error")
+    @patch("sys.exit")
+    def test_print_error_and_exit(self, mock_exit: Any, mock_print_error: Any) -> None:
+        """Check that print_error_and_exit prints the error and exits with code 1."""
+        self.error_handler.print_error_and_exit("Test error")
+        mock_print_error.assert_called_once_with("Test error")
         mock_exit.assert_called_once_with(1)
 
     def test_no_state_leakage_between_instances(self) -> None:
