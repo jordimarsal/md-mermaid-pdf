@@ -4,14 +4,12 @@ import logging
 
 import click
 
-from md_mermaid_pdf.core.config import PdfConfig
+from md_mermaid_pdf.config import PdfConfig
 from md_mermaid_pdf.core.exceptions import FileOperationError
-from md_mermaid_pdf.core.logging_config import setup_logger
 from md_mermaid_pdf.core.models import ErrorHandler
 from md_mermaid_pdf.core.validation import cli_settings
-from md_mermaid_pdf.markdown.processor import MarkdownProcessor
-
 from md_mermaid_pdf.pdf.converter import PdfConverter
+from src.md_mermaid_pdf.core.dependencies import ServiceContainer
 
 
 @click.command()
@@ -27,10 +25,11 @@ def run(md_path: str, pdf_path: str, css_path: str, base_url: str, debug: bool) 
 
 
 def main(cfg: PdfConfig) -> None:
-    # Setup logging
-    log_level = logging.DEBUG if cfg.is_debug else logging.INFO
-    logger = setup_logger("md_mermaid_pdf", level=log_level)
+    # Create service container
+    container = ServiceContainer(cfg)
 
+    # Setup logging
+    logger = container.create_logger()
     logger.info("Starting md_mermaid_pdf")
     logger.debug("Configuration: %s", cfg)
 
@@ -42,7 +41,7 @@ def main(cfg: PdfConfig) -> None:
     except PermissionError:
         raise FileOperationError(f"Permission denied: {cfg.md_path}", cfg.md_path)
 
-    processor = MarkdownProcessor(cfg)
+    processor = container.create_processor()
     converter = PdfConverter(cfg, processor)
     converter.convert_to_pdf(markdown_content)
 
