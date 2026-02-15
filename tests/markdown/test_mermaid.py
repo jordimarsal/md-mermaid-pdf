@@ -2,7 +2,7 @@ import unittest
 from typing import Any
 from unittest.mock import MagicMock, patch
 
-from src.core.models import PdfCfg
+from md_mermaid_pdf.core.models import PdfCfg
 from md_mermaid_pdf.markdown.mermaid import MermaidRenderer, MermaidWrapper
 
 

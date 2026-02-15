@@ -1,6 +1,6 @@
 import unittest
 
-from src.core.constants import Constants
+from md_mermaid_pdf.core.constants import Constants
 from md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
 
 

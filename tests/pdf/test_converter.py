@@ -3,7 +3,7 @@ import unittest
 from typing import Any
 from unittest.mock import mock_open, patch
 
-from src.core.models import PdfCfg
+from md_mermaid_pdf.core.models import PdfCfg
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor
 from md_mermaid_pdf.pdf.converter import PdfConverter
 

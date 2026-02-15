@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from src.core.models import PdfCfg
+from md_mermaid_pdf.core.models import PdfCfg
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
 
