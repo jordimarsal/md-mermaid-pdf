@@ -46,7 +46,9 @@ class PdfConfig:
         return self.debug
 
     @classmethod
-    def from_options(cls, md_path: str, pdf_path: str | None, css_path: str | None, base_url: str | None, debug: bool = False) -> "PdfConfig":
+    def from_options(
+        cls, md_path: str, pdf_path: str | None, css_path: str | None, base_url: str | None, debug: bool = False
+    ) -> "PdfConfig":
         """Create PdfConfig from individual options.
 
         Args:

@@ -6,12 +6,12 @@ and facilitating testing.
 
 import logging
 
-from src.md_mermaid_pdf.config import PdfConfig
+from md_mermaid_pdf.config import PdfConfig
 
-from src.md_mermaid_pdf.core.interfaces import DiagramRenderer, Logger, MarkdownProcessor
-from src.md_mermaid_pdf.core.logging_config import setup_logger
-from src.md_mermaid_pdf.markdown.mermaid import MermaidRenderer
-from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor as MarkdownProcessorImpl
+from md_mermaid_pdf.core.interfaces import DiagramRenderer, Logger, MarkdownProcessor
+from md_mermaid_pdf.core.logging_config import setup_logger
+from md_mermaid_pdf.markdown.mermaid import MermaidRenderer
+from md_mermaid_pdf.markdown.processor import MarkdownProcessor as MarkdownProcessorImpl
 
 
 class ServiceContainer:

@@ -1,4 +1,4 @@
-from src.md_mermaid_pdf.core.constants import Constants
+from md_mermaid_pdf.core.constants import Constants
 
 # region ImageSkeletonBuilder
 

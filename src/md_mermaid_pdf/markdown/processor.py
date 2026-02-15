@@ -2,14 +2,12 @@ import logging
 import re
 
 import markdown2
+from md_mermaid_pdf.config import PdfConfig
 from tqdm import tqdm
 
-from src.md_mermaid_pdf.config import PdfConfig
-from src.md_mermaid_pdf.core.constants import Constants, MDContent
-from src.md_mermaid_pdf.markdown.converters import ContentCleaner, HtmlPageWrapper, MarkdownToHtmlConverter
-from src.md_mermaid_pdf.markdown.extractors import MermaidBlockExtractor
-from src.md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
-from src.md_mermaid_pdf.markdown.mermaid import MermaidRenderer
+from md_mermaid_pdf.core.constants import Constants, MDContent
+from md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
+from md_mermaid_pdf.markdown.mermaid import MermaidRenderer
 
 logger = logging.getLogger(__name__)
 
