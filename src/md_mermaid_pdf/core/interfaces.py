@@ -102,22 +102,22 @@ class Logger(Protocol):
     must follow.
     """
 
-    def debug(self, msg: str, *args, **kwargs) -> None:
+    def debug(self, msg: str, *args: object, **kwargs: object) -> None:
         """Log a debug message."""
         ...
 
-    def info(self, msg: str, *args, **kwargs) -> None:
+    def info(self, msg: str, *args: object, **kwargs: object) -> None:
         """Log an info message."""
         ...
 
-    def warning(self, msg: str, *args, **kwargs) -> None:
+    def warning(self, msg: str, *args: object, **kwargs: object) -> None:
         """Log a warning message."""
         ...
 
-    def error(self, msg: str, *args, **kwargs) -> None:
+    def error(self, msg: str, *args: object, **kwargs: object) -> None:
         """Log an error message."""
         ...
 
-    def critical(self, msg: str, *args, **kwargs) -> None:
+    def critical(self, msg: str, *args: object, **kwargs: object) -> None:
         """Log a critical message."""
         ...

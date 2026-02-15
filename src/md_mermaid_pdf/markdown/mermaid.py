@@ -7,8 +7,6 @@ from mermaid import Graph, Mermaid
 from src.md_mermaid_pdf.core.models import ErrorHandler, PdfCfg
 from src.md_mermaid_pdf.core.utils import print_dbg
 
-DIV_BREAK_AFTER = '<div style="page-break-after: always;"></div>'
-
 # region MermaidWrapper
 
 
@@ -19,12 +17,13 @@ class MermaidWrapper:
     Also, shows error messages when the Mermaid server returns an error.
     """
 
-    def __init__(self, code: str, is_debug: bool):
+    def __init__(self, code: str, is_debug: bool, error_handler: ErrorHandler | None = None) -> None:
         self.code = code
         self.graph = Graph("diagram", code)
         self.diagram = Mermaid(self.graph)
         self.container = None
         self.is_debug = is_debug
+        self.error_handler = error_handler or ErrorHandler()
 
     def render_to_svg(self, svg_file_path: str, endpoint: str) -> str:
         """Render the Mermaid diagram in https://mermaid.ink/svg and save it as an SVG file."""
@@ -39,10 +38,10 @@ class MermaidWrapper:
             svg_response = self._get_internal_variable("svg_response")
             if svg_response.status_code == 404:
                 msg = f"Error for {endpoint}: {svg_response}, maybe the diagram include character:'?'"
-                ErrorHandler.add_error(msg)
+                self.error_handler.add_error(msg)
             else:
                 msg = f"Error for {endpoint}: {svg_response.reason}: {svg_response.text}"
-                ErrorHandler.add_error(msg)
+                self.error_handler.add_error(msg)
             self.diagram.to_svg(svg_file_path)
         return svg_file_path
 

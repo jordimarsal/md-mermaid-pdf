@@ -5,11 +5,8 @@ to HTML and cleaning/wrapping the output.
 """
 
 import re
-import string
 
 import markdown2
-
-from src.md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
 
 
 class MarkdownToHtmlConverter:
@@ -24,7 +21,8 @@ class MarkdownToHtmlConverter:
         Returns:
             The HTML string.
         """
-        return markdown2.markdown(md_content)
+        result: str = markdown2.markdown(md_content)  # type: ignore[no-any-return]
+        return result
 
 
 class ContentCleaner:
@@ -79,8 +77,12 @@ class HtmlPageWrapper:
         # Wrap intervals with divs for page breaks
         for name, height in diagram_sizes.items():
             if height > 1000:
-                content = content.replace(f'<img src="{name}"', f'<div style="page-break-after: always;"><img src="{name}"')
-                content = content.replace(f'{self._get_style_string(height)}">', f'{self._get_style_string(height)}"></div>')
+                content = content.replace(
+                    f'<img src="{name}"', f'<div style="page-break-after: always;"><img src="{name}"'
+                )
+                content = content.replace(
+                    f'{self._get_style_string(height)}">', f'{self._get_style_string(height)}"></div>'
+                )
 
         return content
 

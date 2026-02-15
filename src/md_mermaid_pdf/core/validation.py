@@ -7,7 +7,9 @@ from src.md_mermaid_pdf.core.models import ErrorHandler
 # region cli_settings
 
 
-def cli_settings(md_path: str, pdf_path: str | None, css_path: str | None, base_url: str | None, debug: bool) -> PdfConfig:
+def cli_settings(
+    md_path: str, pdf_path: str | None, css_path: str | None, base_url: str | None, debug: bool
+) -> PdfConfig:
     """Check the options and return the PdfConfig object.
 
     Args:
@@ -37,12 +39,19 @@ def cli_settings(md_path: str, pdf_path: str | None, css_path: str | None, base_
 
 
 def check_path(path: str, path_type: str, expected_type: str) -> None:
-    """Check if the path exists and is of the expected type."""
+    """Check if the path exists and is of the expected type.
+
+    Args:
+        path: The path to check.
+        path_type: Description of the path type for error messages.
+        expected_type: The expected type (Constants.FILE or Constants.DIR).
+    """
     p = Path(path)
     error_message = f"Error: {path_type} not found at {p}"
+    error_handler = ErrorHandler()
 
     if expected_type == Constants.FILE:
         if not (p.exists() and p.is_file()):
-            ErrorHandler.print_error_and_exit(error_message)
+            error_handler.print_error_and_exit(error_message)
     elif expected_type == Constants.DIR and not (p.exists() and p.is_dir()):
-        ErrorHandler.print_error_and_exit(error_message)
+        error_handler.print_error_and_exit(error_message)
