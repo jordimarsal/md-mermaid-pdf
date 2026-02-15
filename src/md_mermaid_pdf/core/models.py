@@ -37,26 +37,51 @@ class PdfCfg:
 
 
 class ErrorHandler:
-    """Handle errors and print help message before exiting."""
+    """Handle errors and print help message before exiting.
 
-    errors: list[str] = []
+    This class collects error messages and provides methods to display
+    them. Each instance maintains its own error list to prevent state
+    leakage between different uses.
+    """
 
-    @staticmethod
-    def print_error_and_exit(err_message: str | None = None) -> None:
-        """Print the error message and exit with code 1."""
+    def __init__(self) -> None:
+        """Initialize a new ErrorHandler with an empty error list."""
+        self._errors: list[str] = []
+
+    def print_error_and_exit(self, err_message: str | None = None) -> None:
+        """Print the error message and exit with code 1.
+
+        Args:
+            err_message: The error message to print. If None, no action is taken.
+        """
         if err_message:
             print_error(err_message)
             sys.exit(1)
 
-    @staticmethod
-    def add_error(msg: str) -> None:
-        """Add an error message to the list of errors."""
-        ErrorHandler.errors.append(msg)
+    def add_error(self, msg: str) -> None:
+        """Add an error message to the list of errors.
 
-    @staticmethod
-    def print_errors() -> None:
+        Args:
+            msg: The error message to add.
+        """
+        self._errors.append(msg)
+
+    def print_errors(self) -> None:
         """Print all the errors and exit with code 1."""
-        if ErrorHandler.errors:
-            for error in ErrorHandler.errors:
+        if self._errors:
+            for error in self._errors:
                 print_error(error)
             sys.exit(1)
+
+    @property
+    def errors(self) -> list[str]:
+        """Get the list of collected errors.
+
+        Returns:
+            A copy of the error list to prevent external modification.
+        """
+        return self._errors.copy()
+
+    def clear_errors(self) -> None:
+        """Clear all collected errors."""
+        self._errors.clear()
