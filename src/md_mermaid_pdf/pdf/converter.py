@@ -3,8 +3,8 @@ import os
 
 from md2pdf import md2pdf
 
+from src.md_mermaid_pdf.config import PdfConfig
 from src.md_mermaid_pdf.core.exceptions import FileOperationError
-from src.md_mermaid_pdf.core.models import PdfCfg
 from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
 logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ class PdfConverter:
     It uses the md2pdf library to convert the processed Markdown to PDF.
     """
 
-    def __init__(self, cfg: PdfCfg, processor: MarkdownProcessor) -> None:
+    def __init__(self, cfg: PdfConfig, processor: MarkdownProcessor) -> None:
         self.cfg = cfg
         self.processor = processor
 

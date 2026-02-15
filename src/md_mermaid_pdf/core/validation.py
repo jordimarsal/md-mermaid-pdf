@@ -1,29 +1,39 @@
 from pathlib import Path
 
+from src.md_mermaid_pdf.core.config import PdfConfig
 from src.md_mermaid_pdf.core.constants import Constants
-from src.md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
-
-FILE = "file"
-DIR = "dir"
-
+from src.md_mermaid_pdf.core.models import ErrorHandler
 
 # region cli_settings
 
 
-def cli_settings(ops: PdfOptions) -> PdfCfg:
-    """Check the options and return the PdfCfg object."""
-    if ops.md_path:
-        check_path(ops.md_path, "Markdown file", FILE)
-    if ops.css_path:
-        check_path(ops.css_path, "CSS file", FILE)
-    else:
-        ops.css_path = str(Constants.SCRIPT_PATH / "resources" / "style.css")
-    if ops.base_url:
-        check_path(ops.base_url, "Base URL", DIR)
-    else:
-        ops.base_url = str(Constants.SCRIPT_PATH / "img")
+def cli_settings(md_path: str, pdf_path: str | None, css_path: str | None, base_url: str | None, debug: bool) -> PdfConfig:
+    """Check the options and return the PdfConfig object.
 
-    return PdfCfg(ops.md_path, ops.pdf_path, ops.css_path, ops.base_url, ops.debug)
+    Args:
+        md_path: Path to the markdown file.
+        pdf_path: Path to the output PDF file.
+        css_path: Path to the CSS file.
+        base_url: Base URL for relative links.
+        debug: Enable debug mode.
+
+    Returns:
+        A validated PdfConfig instance.
+    """
+    if md_path:
+        check_path(md_path, "Markdown file", Constants.FILE)
+
+    if css_path:
+        check_path(css_path, "CSS file", Constants.FILE)
+    else:
+        css_path = str(Constants.SCRIPT_PATH / "resources" / "style.css")
+
+    if base_url:
+        check_path(base_url, "Base URL", Constants.DIR)
+    else:
+        base_url = str(Constants.SCRIPT_PATH / "img")
+
+    return PdfConfig.from_options(md_path, pdf_path, css_path, base_url, debug)
 
 
 def check_path(path: str, path_type: str, expected_type: str) -> None:
@@ -31,8 +41,8 @@ def check_path(path: str, path_type: str, expected_type: str) -> None:
     p = Path(path)
     error_message = f"Error: {path_type} not found at {p}"
 
-    if expected_type == FILE:
+    if expected_type == Constants.FILE:
         if not (p.exists() and p.is_file()):
             ErrorHandler.print_error_and_exit(error_message)
-    elif expected_type == DIR and not (p.exists() and p.is_dir()):
+    elif expected_type == Constants.DIR and not (p.exists() and p.is_dir()):
         ErrorHandler.print_error_and_exit(error_message)

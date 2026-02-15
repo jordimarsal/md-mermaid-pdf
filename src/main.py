@@ -4,9 +4,10 @@ import logging
 
 import click
 
+from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.core.exceptions import FileOperationError
 from md_mermaid_pdf.core.logging_config import setup_logger
-from md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
+from md_mermaid_pdf.core.models import ErrorHandler
 from md_mermaid_pdf.core.validation import cli_settings
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
@@ -20,13 +21,12 @@ from md_mermaid_pdf.pdf.converter import PdfConverter
 @click.argument("base_url", type=str, required=False)
 @click.option("--debug", is_flag=True, help="Enable debug mode.")
 def run(md_path: str, pdf_path: str, css_path: str, base_url: str, debug: bool) -> None:
-    op = PdfOptions(md_path, pdf_path, css_path, base_url, debug)
-    cfg = cli_settings(op)
+    cfg = cli_settings(md_path, pdf_path, css_path, base_url, debug)
 
     main(cfg)
 
 
-def main(cfg: PdfCfg) -> None:
+def main(cfg: PdfConfig) -> None:
     # Setup logging
     log_level = logging.DEBUG if cfg.is_debug else logging.INFO
     logger = setup_logger("md_mermaid_pdf", level=log_level)

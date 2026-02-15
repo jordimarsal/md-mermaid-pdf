@@ -4,8 +4,8 @@ import re
 import markdown2
 from tqdm import tqdm
 
+from src.md_mermaid_pdf.config import PdfConfig
 from src.md_mermaid_pdf.core.constants import Constants, MDContent
-from src.md_mermaid_pdf.core.models import PdfCfg
 from src.md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
 from src.md_mermaid_pdf.markdown.mermaid import MermaidRenderer
 
@@ -21,7 +21,7 @@ class MarkdownProcessor:
     It returns the processed Markdown, simplified as an HTML, and the SVG files.
     """
 
-    def __init__(self, cfg: PdfCfg) -> None:
+    def __init__(self, cfg: PdfConfig) -> None:
         self.cfg = cfg
         self.renderer = MermaidRenderer(cfg)
 
