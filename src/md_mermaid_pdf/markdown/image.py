@@ -1,3 +1,9 @@
+"""Image tag generation for rendered diagrams.
+
+This module provides functionality for generating HTML image tags
+with appropriate styling based on diagram dimensions.
+"""
+
 from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG
 from md_mermaid_pdf.core.constants import Constants
 

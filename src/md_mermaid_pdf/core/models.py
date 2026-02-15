@@ -1,3 +1,9 @@
+"""Data models and error handling for md_mermaid_pdf.
+
+This module provides data classes and error handling components used
+throughout the application.
+"""
+
 from dataclasses import dataclass
 
 from md_mermaid_pdf.core.interfaces import ErrorHandler as ErrorHandlerABC

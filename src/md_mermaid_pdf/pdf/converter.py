@@ -41,9 +41,9 @@ class PdfConverter:
         md2pdf(self.cfg.pdf_path, md_file_path=temp, css_file_path=self.cfg.css_path, base_url=self.cfg.base_url)
 
         logger.info("Cleaning up...")
-        self.cleaning(svg_files, temp)
+        self.cleanup(svg_files, temp)
 
-    def cleaning(self, svg_files: list[str], temp: str) -> None:
+    def cleanup(self, svg_files: list[str], temp: str) -> None:
         """Clean up the generated SVG files and the temp file.
 
         Args:

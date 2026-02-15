@@ -1,3 +1,9 @@
+"""Utility functions for terminal output.
+
+This module provides functions for printing colored debug and error messages
+to the terminal.
+"""
+
 from md_mermaid_pdf.core.color import GRAY, RED, colour
 
 

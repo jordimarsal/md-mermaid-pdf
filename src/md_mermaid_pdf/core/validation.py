@@ -1,3 +1,9 @@
+"""Configuration validation utilities.
+
+This module provides functions for validating CLI settings and file paths
+to ensure they meet the requirements for PDF generation.
+"""
+
 from pathlib import Path
 
 from md_mermaid_pdf.core.config import PdfConfig

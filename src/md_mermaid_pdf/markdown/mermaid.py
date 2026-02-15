@@ -1,3 +1,9 @@
+"""Mermaid diagram rendering.
+
+This module provides functionality for rendering Mermaid diagrams to SVG
+files using the mermaid-py library.
+"""
+
 import math
 import re
 from typing import Any
