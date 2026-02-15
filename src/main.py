@@ -5,12 +5,12 @@ import sys
 
 import click
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.core.dependencies import ServiceContainer
-from md_mermaid_pdf.core.exceptions import ConfigValidationError, FileOperationError
-from md_mermaid_pdf.core.models import ErrorCollector
-from md_mermaid_pdf.core.validation import cli_settings
-from md_mermaid_pdf.pdf.converter import PdfConverter
+from src.md_mermaid_pdf.core.config import PdfConfig
+from src.md_mermaid_pdf.core.dependencies import ServiceContainer
+from src.md_mermaid_pdf.core.exceptions import ConfigValidationError, FileOperationError
+from src.md_mermaid_pdf.core.models import ErrorCollector
+from src.md_mermaid_pdf.core.validation import cli_settings
+from src.md_mermaid_pdf.pdf.converter import PdfConverter
 
 
 @click.command()

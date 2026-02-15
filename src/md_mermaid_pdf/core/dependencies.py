@@ -6,11 +6,11 @@ and facilitating testing.
 
 import logging
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.core.interfaces import DiagramRenderer, MarkdownProcessor
-from md_mermaid_pdf.core.logging_config import setup_logger
-from md_mermaid_pdf.markdown.mermaid import MermaidRenderer
-from md_mermaid_pdf.markdown.processor import MarkdownProcessor as MarkdownProcessorImpl
+from .config import PdfConfig
+from .interfaces import DiagramRenderer, MarkdownProcessor
+from .logging_config import setup_logger
+from ..markdown.mermaid import MermaidRenderer
+from ..markdown.processor import MarkdownProcessor as MarkdownProcessorImpl
 
 
 class ServiceContainer:
@@ -46,7 +46,7 @@ class ServiceContainer:
         Returns:
             A MermaidRenderer instance.
         """
-        return MermaidRenderer(self._config)  # type: ignore[return-value]
+        return MermaidRenderer(self._config)
 
     def create_processor(self, renderer: DiagramRenderer | None = None) -> MarkdownProcessor:
         """Create a markdown processor instance.
@@ -59,4 +59,4 @@ class ServiceContainer:
         """
         if renderer is None:
             renderer = self.create_renderer()
-        return MarkdownProcessorImpl(self._config)  # type: ignore[return-value]
+        return MarkdownProcessorImpl(self._config)

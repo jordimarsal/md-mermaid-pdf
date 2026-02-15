@@ -3,9 +3,9 @@ from unittest.mock import MagicMock, patch
 
 from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.markdown.content_wrapper import ContentWrapper
+from md_mermaid_pdf.markdown.extractor import MarkdownExtractor
 from md_mermaid_pdf.markdown.html_converter import HtmlConverter
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor
-from md_mermaid_pdf.markdown.extractor import MarkdownExtractor
 
 
 class TestMarkdownProcessor(unittest.TestCase):

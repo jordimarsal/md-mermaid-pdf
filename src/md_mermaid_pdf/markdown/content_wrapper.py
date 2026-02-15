@@ -6,8 +6,8 @@ in divs with appropriate page break styles.
 
 import re
 
-from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG
-from md_mermaid_pdf.core.constants import Constants
+from src.md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG
+from src.md_mermaid_pdf.core.constants import Constants
 
 
 class ContentWrapper:

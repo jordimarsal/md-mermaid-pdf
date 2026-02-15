@@ -3,9 +3,9 @@ from pathlib import Path
 
 from md2pdf import md2pdf
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.core.exceptions import FileOperationError
-from md_mermaid_pdf.markdown.processor import MarkdownProcessor
+from ..core.config import PdfConfig
+from ..core.exceptions import FileOperationError
+from ..core.interfaces import MarkdownProcessor as MarkdownProcessorABC
 
 logger = logging.getLogger(__name__)
 
@@ -13,16 +13,18 @@ logger = logging.getLogger(__name__)
 class PdfConverter:
     """
     This class converts Markdown content to PDF.
-    It uses the MarkdownProcessor to process the Markdown content and then converts it to PDF.
+    It uses the MarkdownProcessor interface to process the Markdown content and then converts it to PDF.
     It uses the md2pdf library to convert the processed Markdown to PDF.
+
+    Depends on the abstract `MarkdownProcessor` (DIP) rather than a concrete implementation.
     """
 
-    def __init__(self, cfg: PdfConfig, processor: MarkdownProcessor) -> None:
+    def __init__(self, cfg: PdfConfig, processor: MarkdownProcessorABC) -> None:
         self.cfg = cfg
         self.processor = processor
 
     def convert_to_pdf(self, markdown_content: str) -> None:
-        processed_content, svg_files = self.processor.process_markdown(markdown_content)
+        processed_content, svg_files = self.processor.process(markdown_content)
 
         # Temp file to store the processed Markdown
         temp = self.cfg.tmp_md_path

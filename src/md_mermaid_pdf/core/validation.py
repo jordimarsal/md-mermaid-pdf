@@ -6,9 +6,9 @@ to ensure they meet the requirements for PDF generation.
 
 from pathlib import Path
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.core.constants import Constants
-from md_mermaid_pdf.core.exceptions import ConfigValidationError
+from src.md_mermaid_pdf.core.config import PdfConfig
+from src.md_mermaid_pdf.core.constants import Constants
+from src.md_mermaid_pdf.core.exceptions import ConfigValidationError
 
 # region cli_settings
 

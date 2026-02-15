@@ -56,6 +56,8 @@ lint.select = ["F", "E", "W", "I", "N", "ARG"]
 
 [tool.mypy]
 python_version = "3.11"
+# Allow mypy to resolve local package modules under `src`
+mypy_path = ["src"]
 strict = true
 check_untyped_defs = true
 warn_return_any = true

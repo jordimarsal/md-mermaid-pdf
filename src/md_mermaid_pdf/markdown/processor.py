@@ -5,16 +5,17 @@ the conversion of Markdown with Mermaid diagrams to HTML.
 """
 
 import logging
+
 from tqdm import tqdm
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.core.constants import MDContent
-from md_mermaid_pdf.core.interfaces import MarkdownProcessor as MarkdownProcessorABC
-from md_mermaid_pdf.markdown.content_wrapper import ContentWrapper
-from md_mermaid_pdf.markdown.html_converter import HtmlConverter
-from md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
-from md_mermaid_pdf.markdown.mermaid import MermaidRenderer
-from md_mermaid_pdf.markdown.extractor import MarkdownExtractor
+from ..core.config import PdfConfig
+from ..core.constants import MDContent
+from ..core.interfaces import MarkdownProcessor as MarkdownProcessorABC
+from .content_wrapper import ContentWrapper
+from .extractor import MarkdownExtractor
+from .html_converter import HtmlConverter
+from .image import ImageSkeletonBuilder
+from .mermaid import MermaidRenderer
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +39,7 @@ class MarkdownProcessor(MarkdownProcessorABC):
         self.html_converter = HtmlConverter()
         self.content_wrapper = ContentWrapper()
 
-    def process(self, md_content: str) -> tuple[str, list[str]]:
+    def process(self, md_content: str) -> MDContent:
         """Process Markdown content and return HTML with rendered diagrams.
 
         Args:

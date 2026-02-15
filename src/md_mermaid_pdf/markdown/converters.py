@@ -8,7 +8,7 @@ import re
 
 import markdown2
 
-from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG
+from src.md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG
 
 
 class MarkdownToHtmlConverter:

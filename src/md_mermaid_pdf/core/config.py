@@ -61,7 +61,12 @@ class PdfConfig:
 
     @classmethod
     def from_options(
-        cls: type["PdfConfig"], md_path: str, pdf_path: str | None, css_path: str | None, base_url: str | None, debug: bool = False
+        cls: type["PdfConfig"],
+        md_path: str,
+        pdf_path: str | None,
+        css_path: str | None,
+        base_url: str | None,
+        debug: bool = False,
     ) -> "PdfConfig":
         """Create PdfConfig from individual options.
 

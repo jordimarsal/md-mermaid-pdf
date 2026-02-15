@@ -6,8 +6,8 @@ throughout the application.
 
 from dataclasses import dataclass
 
-from md_mermaid_pdf.core.interfaces import ErrorHandler as ErrorHandlerABC
-from md_mermaid_pdf.core.utils import print_error
+from src.md_mermaid_pdf.core.interfaces import ErrorHandler as ErrorHandlerABC
+from src.md_mermaid_pdf.core.utils import print_error
 
 # region PdfOptions
 

@@ -10,10 +10,10 @@ from typing import Any
 
 from mermaid import Graph, Mermaid
 
-from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG, PdfConfig
-from md_mermaid_pdf.core.interfaces import DiagramRenderer
-from md_mermaid_pdf.core.models import ErrorHandler  # Backward compatibility alias
-from md_mermaid_pdf.core.utils import print_dbg
+from ..core.config import DEFAULT_RENDERING_CONFIG, PdfConfig
+from ..core.interfaces import DiagramRenderer
+from ..core.models import ErrorHandler  # Backward compatibility alias
+from ..core.utils import print_dbg
 
 # region MermaidWrapper
 

@@ -4,8 +4,8 @@ This module provides functionality for generating HTML image tags
 with appropriate styling based on diagram dimensions.
 """
 
-from md_mermaid_pdf.core.config import DEFAULT_RENDERING_CONFIG
-from md_mermaid_pdf.core.constants import Constants
+from ..core.config import DEFAULT_RENDERING_CONFIG
+from ..core.constants import Constants
 
 # region ImageSkeletonBuilder
 
