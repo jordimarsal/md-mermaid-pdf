@@ -1,5 +1,5 @@
 import logging
-import os
+from pathlib import Path
 
 from md2pdf import md2pdf
 
@@ -27,9 +27,8 @@ class PdfConverter:
         # Temp file to store the processed Markdown
         temp = self.cfg.tmp_md_path
         try:
-            os.makedirs(os.path.dirname(temp), exist_ok=True)
-            with open(temp, "w") as f:
-                f.write(processed_content)
+            Path(temp).parent.mkdir(parents=True, exist_ok=True)
+            Path(temp).write_text(processed_content, encoding='utf-8')
         except OSError as e:
             raise FileOperationError(f"Error writing temp file: {e}", temp)
 
@@ -52,6 +51,6 @@ class PdfConverter:
             temp: Path to the temporary markdown file to remove.
         """
         for svg_file in svg_files:
-            os.remove(svg_file)
-        os.remove(temp)
+            Path(svg_file).unlink()
+        Path(temp).unlink()
         logger.debug("Cleaned up %d SVG files and temp file", len(svg_files))
