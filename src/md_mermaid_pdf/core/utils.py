@@ -1,9 +1,19 @@
-from src.md_mermaid_pdf.core.color import Color, colour
+from src.md_mermaid_pdf.core.color import GRAY, RED, colour
 
 
 def print_dbg(message: str) -> None:
-    print(colour(Color.GRAY, message))
+    """Print a debug message in gray.
+
+    Args:
+        message: The message to print.
+    """
+    print(colour(GRAY, message))
 
 
 def print_error(message: str) -> None:
-    print(colour(Color.RED, message))
+    """Print an error message in red.
+
+    Args:
+        message: The message to print.
+    """
+    print(colour(RED, message))

@@ -1,48 +1,67 @@
+"""Color utilities for terminal output.
+
+This module provides color constants and functions for colored
+terminal output using colorama.
+"""
+
 from colorama import Fore, init
 
-# reggion Color
+# Initialize colorama
+init()
+
+# Color constants
+BLACK = Fore.BLACK
+RED = Fore.RED
+GREEN = Fore.GREEN
+YELLOW = Fore.YELLOW
+BLUE = Fore.BLUE
+MAGENTA = Fore.MAGENTA
+CYAN: str = Fore.CYAN
+WHITE = Fore.WHITE
+RESET = Fore.RESET
+LIGHTYELLOW = Fore.LIGHTYELLOW_EX
+LIGHTGREEN = Fore.LIGHTGREEN_EX
+LIGHTBLACK_EX = Fore.LIGHTBLACK_EX
+GRAY = "\033[90m"
+LIGHTBLUE = "\033[94m"
+LIGHTCYAN = "\033[96m"
+LIGHTRED = "\033[91m"
+LIGHTMAGENTA = "\033[95m"
+
+# Private state for color enable/disable
+_enabled = True
 
 
-class Color:
-    _instance = None  # Class variable for the singleton instance
+def enable_colors() -> None:
+    """Enable colored output."""
+    global _enabled
     _enabled = True
-    BLACK = Fore.BLACK
-    RED = Fore.RED
-    GREEN = Fore.GREEN
-    YELLOW = Fore.YELLOW
-    BLUE = Fore.BLUE
-    MAGENTA = Fore.MAGENTA
-    CYAN: str = Fore.CYAN
-    WHITE = Fore.WHITE
-    RESET = Fore.RESET
-    LIGHTYELLOW = Fore.LIGHTYELLOW_EX
-    LIGHTGREEN = Fore.LIGHTGREEN_EX
-    LIGHTBLACK_EX = Fore.LIGHTBLACK_EX
-    GRAY = "\033[90m"
-    LIGHTBLUE = "\033[94m"
-    LIGHTCYAN = "\033[96m"
-    LIGHTRED = "\033[91m"
-    LIGHTMAGENTA = "\033[95m"
 
-    def __new__(cls) -> "Color":
-        """Creates the singleton instance if it does not exist"""
-        if cls._instance is None:
-            init()
-            cls._instance = super().__new__(cls)
-        return cls._instance
 
-    @classmethod
-    def disable(cls) -> None:
-        cls._enabled = False
+def disable_colors() -> None:
+    """Disable colored output."""
+    global _enabled
+    _enabled = False
 
-    @classmethod
-    def enable(cls) -> None:
-        cls._enabled = True
 
-    @classmethod
-    def is_enabled(cls) -> bool:
-        return cls._enabled
+def is_enabled() -> bool:
+    """Check if colored output is enabled.
+
+    Returns:
+        True if colors are enabled, False otherwise.
+    """
+    return _enabled
 
 
 def colour(color: str, text: str, force_color: bool = False) -> str:
-    return f"{color}{text}{Fore.RESET}" if Color.is_enabled() or force_color else text
+    """Apply color to text.
+
+    Args:
+        color: The color code to apply.
+        text: The text to colorize.
+        force_color: If True, apply color even if disabled globally.
+
+    Returns:
+        The colorized text, or plain text if colors are disabled.
+    """
+    return f"{color}{text}{Fore.RESET}" if _enabled or force_color else text
