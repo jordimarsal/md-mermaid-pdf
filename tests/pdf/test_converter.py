@@ -3,7 +3,7 @@ import unittest
 from typing import Any
 from unittest.mock import MagicMock, patch
 
-from md_mermaid_pdf.core.models import PdfCfg
+from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor
 from md_mermaid_pdf.pdf.converter import PdfConverter
 
@@ -14,7 +14,7 @@ class TestPdfConverter(unittest.TestCase):
         with open("tests/resources/test.svg", "w") as f:
             f.write("<svg></svg>")  # Contingut mínim d'un fitxer SVG
         # Configuració inicial per als tests
-        self.cfg = PdfCfg(
+        self.cfg = PdfConfig(
             md_path="tests/output/test.md",
             pdf_path="tests/output/output.pdf",
             css_path="tests/resources/style.css",

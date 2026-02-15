@@ -2,8 +2,9 @@ import unittest
 from typing import Any
 from unittest.mock import patch
 
+from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.core.constants import Constants
-from md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
+from md_mermaid_pdf.core.models import ErrorCollector, PdfOptions
 
 
 class TestPdfOptions(unittest.TestCase):
@@ -23,10 +24,10 @@ class TestPdfOptions(unittest.TestCase):
         self.assertTrue(options.debug)
 
 
-class TestPdfCfg(unittest.TestCase):
-    def test_pdf_cfg_initialization(self) -> None:
-        """Comprova que PdfCfg s'inicialitza correctament."""
-        cfg = PdfCfg(
+class TestPdfConfig(unittest.TestCase):
+    def test_pdf_config_initialization(self) -> None:
+        """Comprova que PdfConfig s'inicialitza correctament."""
+        cfg = PdfConfig(
             md_path="test.md",
             pdf_path="output.pdf",
             css_path="style.css",
@@ -41,10 +42,10 @@ class TestPdfCfg(unittest.TestCase):
         self.assertTrue(cfg.is_debug)
 
 
-class TestErrorHandler(unittest.TestCase):
+class TestErrorCollector(unittest.TestCase):
     def setUp(self) -> None:
-        """Create a fresh ErrorHandler instance for each test."""
-        self.error_handler = ErrorHandler()
+        """Create a fresh ErrorCollector instance for each test."""
+        self.error_handler = ErrorCollector()
 
     @patch("md_mermaid_pdf.core.models.print_error")
     @patch("sys.exit")
@@ -71,9 +72,9 @@ class TestErrorHandler(unittest.TestCase):
         mock_exit.assert_called_once_with(1)
 
     def test_no_state_leakage_between_instances(self) -> None:
-        """Check that different ErrorHandler instances don't share state."""
-        handler1 = ErrorHandler()
-        handler2 = ErrorHandler()
+        """Check that different ErrorCollector instances don't share state."""
+        handler1 = ErrorCollector()
+        handler2 = ErrorCollector()
 
         handler1.add_error("Error 1")
         handler2.add_error("Error 2")

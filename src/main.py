@@ -2,11 +2,11 @@
 
 
 import click
-from md_mermaid_pdf.config import PdfConfig
 
+from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.core.dependencies import ServiceContainer
 from md_mermaid_pdf.core.exceptions import FileOperationError
-from md_mermaid_pdf.core.models import ErrorHandler
+from md_mermaid_pdf.core.models import ErrorCollector
 from md_mermaid_pdf.core.validation import cli_settings
 from md_mermaid_pdf.pdf.converter import PdfConverter
 
@@ -45,7 +45,7 @@ def main(cfg: PdfConfig) -> None:
     converter.convert_to_pdf(markdown_content)
 
     # Check for errors
-    error_handler = ErrorHandler()
+    error_handler = ErrorCollector()
     if error_handler.errors:
         error_handler.print_errors()
 

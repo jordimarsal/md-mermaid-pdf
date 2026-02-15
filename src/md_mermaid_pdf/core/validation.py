@@ -2,7 +2,7 @@ from pathlib import Path
 
 from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.core.constants import Constants
-from md_mermaid_pdf.core.models import ErrorHandler
+from md_mermaid_pdf.core.models import ErrorCollector
 
 # region cli_settings
 
@@ -48,7 +48,7 @@ def check_path(path: str, path_type: str, expected_type: str) -> None:
     """
     p = Path(path)
     error_message = f"Error: {path_type} not found at {p}"
-    error_handler = ErrorHandler()
+    error_handler = ErrorCollector()
 
     if expected_type == Constants.FILE:
         if not (p.exists() and p.is_file()):

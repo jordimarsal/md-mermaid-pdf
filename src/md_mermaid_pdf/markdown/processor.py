@@ -6,6 +6,7 @@ from tqdm import tqdm
 
 from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.core.constants import Constants, MDContent
+from md_mermaid_pdf.core.interfaces import MarkdownProcessor as MarkdownProcessorABC
 from md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
 from md_mermaid_pdf.markdown.mermaid import MermaidRenderer
 
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 # region MarkdownProcessor
 
 
-class MarkdownProcessor:
+class MarkdownProcessor(MarkdownProcessorABC):
     """
     Class to process the Markdown content and render the Mermaid diagrams.
     It uses the MermaidRenderer to render the diagrams and replace the code blocks with the SVG images.
@@ -25,7 +26,27 @@ class MarkdownProcessor:
         self.cfg = cfg
         self.renderer = MermaidRenderer(cfg)
 
+    def process(self, md_content: str) -> tuple[str, list[str]]:
+        """Process the Markdown content and return the processed content and the SVG files.
+        It extracts the Mermaid code blocks from the Markdown content, renders them as SVG files,
+        and replaces the code blocks with the SVG image references.
+
+        Args:
+            md_content: The markdown content to process.
+
+        Returns:
+            A tuple of (processed HTML, list of SVG file paths).
+        """
+        return self._process_markdown_impl(md_content)
+
     def process_markdown(self, md_content: str) -> MDContent:
+        """Backward compatibility method for process.
+
+        Deprecated: Use process() instead.
+        """
+        return self.process(md_content)
+
+    def _process_markdown_impl(self, md_content: str) -> MDContent:
         """Process the Markdown content and return the processed content and the SVG files.
         It extracts the Mermaid code blocks from the Markdown content, renders them as SVG files,
         and replaces the code blocks with the SVG image references.

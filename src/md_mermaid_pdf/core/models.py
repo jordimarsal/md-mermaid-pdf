@@ -1,7 +1,7 @@
 import sys
 from dataclasses import dataclass
 
-from md_mermaid_pdf.core.constants import Constants
+from md_mermaid_pdf.core.interfaces import ErrorHandler as ErrorHandlerABC
 from md_mermaid_pdf.core.utils import print_error
 
 # region PdfOptions
@@ -18,35 +18,29 @@ class PdfOptions:
     debug: bool = False
 
 
-# region PdfCfg
+# region ErrorCollector
 
 
-class PdfCfg:
-    """Dto Configuration for the PDF renderer."""
-
-    def __init__(self, md_path: str, pdf_path: str, css_path: str, base_url: str, debug: bool) -> None:
-        self.md_path = md_path
-        self.pdf_path = pdf_path
-        self.css_path = css_path
-        self.base_url = base_url
-        self.tmp_md_path = f"{Constants.SCRIPT_PATH}/output/output_temp.md"
-        self.is_debug = debug
-
-
-# region ErrorHandler
-
-
-class ErrorHandler:
-    """Handle errors and print help message before exiting.
+class ErrorCollector(ErrorHandlerABC):
+    """Collect and manage error messages for CLI output.
 
     This class collects error messages and provides methods to display
     them. Each instance maintains its own error list to prevent state
-    leakage between different uses.
+    leakage between different uses. It implements the ErrorHandler interface.
     """
 
     def __init__(self) -> None:
-        """Initialize a new ErrorHandler with an empty error list."""
+        """Initialize a new ErrorCollector with an empty error list."""
         self._errors: list[str] = []
+
+    def handle_error(self, error: Exception, context: str) -> None:
+        """Handle an error by adding its message to the error list.
+
+        Args:
+            error: The exception to handle.
+            context: Additional context about where the error occurred.
+        """
+        self.add_error(f"{context}: {error}")
 
     def print_error_and_exit(self, err_message: str | None = None) -> None:
         """Print the error message and exit with code 1.
@@ -85,3 +79,7 @@ class ErrorHandler:
     def clear_errors(self) -> None:
         """Clear all collected errors."""
         self._errors.clear()
+
+
+# Backward compatibility alias
+ErrorHandler = ErrorCollector

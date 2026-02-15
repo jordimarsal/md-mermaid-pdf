@@ -2,13 +2,13 @@ import unittest
 from typing import Any
 from unittest.mock import MagicMock, patch
 
-from md_mermaid_pdf.core.models import PdfCfg
+from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.markdown.mermaid import MermaidRenderer, MermaidWrapper
 
 
 class TestMermaidWrapper(unittest.TestCase):
     @patch("md_mermaid_pdf.markdown.mermaid.Mermaid")
-    @patch("md_mermaid_pdf.core.models.ErrorHandler.add_error")
+    @patch("md_mermaid_pdf.core.models.ErrorCollector.add_error")
     def test_render_to_svg_success(self, mock_add_error: Any, mock_mermaid: Any) -> None:
         """Comprova que render_to_svg funciona correctament quan la resposta és 200."""
         mock_mermaid_instance = mock_mermaid.return_value
@@ -40,7 +40,7 @@ class TestMermaidRenderer(unittest.TestCase):
         mock_wrapper_instance = mock_mermaid_wrapper.return_value
         mock_wrapper_instance.render_to_svg.return_value = "diagram_0.svg"
 
-        cfg = PdfCfg("test.md", "output.pdf", "style.css", "http://example.com", debug=False)
+        cfg = PdfConfig("test.md", "output.pdf", "style.css", "http://example.com", debug=False)
         renderer = MermaidRenderer(cfg)
 
         svg_files, heights = renderer.render(0, "graph TD; A-->B;", "http://example.com", "endpoint")
@@ -55,7 +55,7 @@ class TestMermaidRenderer(unittest.TestCase):
         mock_wrapper_instance = mock_mermaid_wrapper.return_value
         mock_wrapper_instance.render_to_svg.side_effect = ["diagram_0.svg", "diagram_1.svg"]
 
-        cfg = PdfCfg("test.md", "output.pdf", "style.css", "http://example.com", debug=False)
+        cfg = PdfConfig("test.md", "output.pdf", "style.css", "http://example.com", debug=False)
         renderer = MermaidRenderer(cfg)
 
         code = "\n".join([f"line {i}" for i in range(100)])  # 100 línies de codi

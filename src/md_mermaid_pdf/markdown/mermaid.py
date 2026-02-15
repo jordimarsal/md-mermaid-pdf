@@ -4,7 +4,9 @@ from typing import Any
 
 from mermaid import Graph, Mermaid
 
-from md_mermaid_pdf.core.models import ErrorHandler, PdfCfg
+from md_mermaid_pdf.core.config import PdfConfig
+from md_mermaid_pdf.core.interfaces import DiagramRenderer
+from md_mermaid_pdf.core.models import ErrorHandler  # Backward compatibility alias
 from md_mermaid_pdf.core.utils import print_dbg
 
 # region MermaidWrapper
@@ -52,14 +54,22 @@ class MermaidWrapper:
 # region MermaidRenderer
 
 
-class MermaidRenderer:
-    def __init__(self, cfg: PdfCfg, error_handler: ErrorHandler | None = None) -> None:
+class MermaidRenderer(DiagramRenderer):
+    def __init__(self, cfg: PdfConfig, error_handler: ErrorHandler | None = None) -> None:
         self.cfg = cfg
         self.error_handler = error_handler or ErrorHandler()
 
-    def render(self, image_number: int, code: str, base_url: str, enpoint: str) -> tuple[list[str], list[int]]:
-        """Render the Mermaid code and return the SVG files and the heights of the diagrams.
-        It splits the Mermaid code into chunks of 50 lines to avoid the Mermaid server's limitation.
+    def render(self, index: int, code: str, base_url: str, endpoint: str) -> tuple[list[str], list[int]]:
+        """Render a Mermaid diagram.
+
+        Args:
+            index: The diagram index.
+            code: The diagram code to render.
+            base_url: Base URL for resources.
+            endpoint: The endpoint identifier.
+
+        Returns:
+            A tuple of (list of SVG file paths, list of heights).
         """
         code_lines = code.split("\n")
         svg_files = []
@@ -71,25 +81,40 @@ class MermaidRenderer:
             pre = header if i > 0 else ""
             chunk = pre + "\n".join(code_lines[i : i + 50])
             suffix = f"_{i//50}" if num_chuncks > 1 else ""
-            svg_file = f"diagram_{image_number}{suffix}.svg"
-            image_file = self._render_mermaid(chunk, base_url + "/" + svg_file, enpoint)
+            svg_file = f"diagram_{index}{suffix}.svg"
+            image_file = self._render_mermaid(chunk, base_url + "/" + svg_file, endpoint)
             svg_files.append(image_file)
             heights.append((len(chunk.split("\n")) - 10) * 14)
         return svg_files, heights
 
-    def _render_mermaid(self, mermaid_code: str, svg_file_path: str, enpoint: str) -> str:
+    def render_batch(self, blocks: list[tuple[int, str]]) -> list[tuple[list[str], list[int]]]:
+        """Render multiple Mermaid diagrams.
+
+        Args:
+            blocks: List of (index, code) tuples.
+
+        Returns:
+            List of (SVG paths, heights) tuples.
+        """
+        results = []
+        for index, code in blocks:
+            result = self.render(index, code, self.cfg.base_url, f"endpoint_{index}")
+            results.append(result)
+        return results
+
+    def _render_mermaid(self, mermaid_code: str, svg_file_path: str, endpoint: str) -> str:
         """Render a Mermaid diagram and save it as an SVG file.
 
         Args:
             mermaid_code: The Mermaid diagram code.
             svg_file_path: Path where the SVG file should be saved.
-            enpoint: The endpoint name for the diagram.
+            endpoint: The endpoint name for the diagram.
 
         Returns:
             The path to the generated SVG file.
         """
         wrapper = MermaidWrapper(mermaid_code, self.cfg.is_debug, self.error_handler)
-        svg_path = wrapper.render_to_svg(svg_file_path, enpoint)
+        svg_path = wrapper.render_to_svg(svg_file_path, endpoint)
         return svg_path
 
     def _get_header(self, code: str) -> str:

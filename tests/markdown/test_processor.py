@@ -1,14 +1,14 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from md_mermaid_pdf.core.models import PdfCfg
+from md_mermaid_pdf.core.config import PdfConfig
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
 
 class TestMarkdownProcessor(unittest.TestCase):
     def setUp(self) -> None:
-        """Configura un PdfCfg de prova i inicialitza el MarkdownProcessor."""
-        self.cfg = PdfCfg(
+        """Configura un PdfConfig de prova i inicialitza el MarkdownProcessor."""
+        self.cfg = PdfConfig(
             md_path="test.md",
             pdf_path="output.pdf",
             css_path="style.css",
