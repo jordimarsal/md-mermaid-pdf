@@ -3,6 +3,7 @@ import os
 
 from md2pdf import md2pdf
 
+from src.md_mermaid_pdf.core.exceptions import FileOperationError
 from src.md_mermaid_pdf.core.models import PdfCfg
 from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
@@ -25,9 +26,12 @@ class PdfConverter:
 
         # Temp file to store the processed Markdown
         temp = self.cfg.tmp_md_path
-        os.makedirs(os.path.dirname(temp), exist_ok=True)
-        with open(temp, "w") as f:
-            f.write(processed_content)
+        try:
+            os.makedirs(os.path.dirname(temp), exist_ok=True)
+            with open(temp, "w") as f:
+                f.write(processed_content)
+        except OSError as e:
+            raise FileOperationError(f"Error writing temp file: {e}", temp)
 
         if self.cfg.is_debug:
             logger.debug("Processed markdown written to temp file: %s", temp)

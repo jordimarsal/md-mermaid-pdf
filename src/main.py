@@ -4,6 +4,7 @@ import logging
 
 import click
 
+from md_mermaid_pdf.core.exceptions import FileOperationError
 from md_mermaid_pdf.core.logging_config import setup_logger
 from md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
 from md_mermaid_pdf.core.validation import cli_settings
@@ -33,8 +34,13 @@ def main(cfg: PdfCfg) -> None:
     logger.info("Starting md_mermaid_pdf")
     logger.debug("Configuration: %s", cfg)
 
-    with open(cfg.md_path) as f:
-        markdown_content = f.read()
+    try:
+        with open(cfg.md_path) as f:
+            markdown_content = f.read()
+    except FileNotFoundError:
+        raise FileOperationError(f"File not found: {cfg.md_path}", cfg.md_path)
+    except PermissionError:
+        raise FileOperationError(f"Permission denied: {cfg.md_path}", cfg.md_path)
 
     processor = MarkdownProcessor(cfg)
     converter = PdfConverter(cfg, processor)
