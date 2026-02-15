@@ -53,8 +53,9 @@ class MermaidWrapper:
 
 
 class MermaidRenderer:
-    def __init__(self, cfg: PdfCfg) -> None:
+    def __init__(self, cfg: PdfCfg, error_handler: ErrorHandler | None = None) -> None:
         self.cfg = cfg
+        self.error_handler = error_handler or ErrorHandler()
 
     def render(self, image_number: int, code: str, base_url: str, enpoint: str) -> tuple[list[str], list[int]]:
         """Render the Mermaid code and return the SVG files and the heights of the diagrams.
@@ -77,8 +78,17 @@ class MermaidRenderer:
         return svg_files, heights
 
     def _render_mermaid(self, mermaid_code: str, svg_file_path: str, enpoint: str) -> str:
-        """Render a Mermaid diagram and save it as an SVG file."""
-        wrapper = MermaidWrapper(mermaid_code, self.cfg.is_debug)
+        """Render a Mermaid diagram and save it as an SVG file.
+
+        Args:
+            mermaid_code: The Mermaid diagram code.
+            svg_file_path: Path where the SVG file should be saved.
+            enpoint: The endpoint name for the diagram.
+
+        Returns:
+            The path to the generated SVG file.
+        """
+        wrapper = MermaidWrapper(mermaid_code, self.cfg.is_debug, self.error_handler)
         svg_path = wrapper.render_to_svg(svg_file_path, enpoint)
         return svg_path
 
