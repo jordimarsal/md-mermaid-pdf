@@ -7,34 +7,34 @@ from md_mermaid_pdf.markdown.mermaid import MermaidRenderer, MermaidWrapper
 
 
 class TestMermaidWrapper(unittest.TestCase):
-    @patch("src.markdown.mermaid.Mermaid")
-    @patch("src.core.models.ErrorHandler.add_error")
+    @patch("md_mermaid_pdf.markdown.mermaid.Mermaid")
+    @patch("md_mermaid_pdf.core.models.ErrorHandler.add_error")
     def test_render_to_svg_success(self, mock_add_error: Any, mock_mermaid: Any) -> None:
         """Comprova que render_to_svg funciona correctament quan la resposta és 200."""
         mock_mermaid_instance = mock_mermaid.return_value
         mock_mermaid_instance.svg_response = MagicMock(status_code=200)
 
-        wrapper = MermaidWrapper("graph TD; A-->B;", is_debug=False)
+        wrapper = MermaidWrapper("graph TD; A-->B;", is_debug=False, error_handler=None)
         svg_path = wrapper.render_to_svg("test.svg", "http://example.com")
 
         mock_mermaid_instance.to_svg.assert_called_once_with("test.svg")
         self.assertEqual(svg_path, "test.svg")
         mock_add_error.assert_not_called()
 
-    @patch("src.markdown.mermaid.Mermaid")
+    @patch("md_mermaid_pdf.markdown.mermaid.Mermaid")
     def test_render_to_svg_error(self, mock_mermaid: Any) -> None:
         """Comprova que render_to_svg afegeix errors quan la resposta no és 200."""
         mock_mermaid_instance = mock_mermaid.return_value
         mock_mermaid_instance.svg_response = MagicMock(status_code=404, reason="Not Found", text="Error text")
         mock_mermaid_instance.to_svg.assert_not_called()
 
-        wrapper = MermaidWrapper("graph TD; A-->B;", is_debug=False)
+        wrapper = MermaidWrapper("graph TD; A-->B;", is_debug=False, error_handler=None)
         svg_path = wrapper.render_to_svg("test.svg", "http://example.com")
         self.assertEqual(svg_path, "test.svg")
 
 
 class TestMermaidRenderer(unittest.TestCase):
-    @patch("src.markdown.mermaid.MermaidWrapper")
+    @patch("md_mermaid_pdf.markdown.mermaid.MermaidWrapper")
     def test_render_single_chunk(self, mock_mermaid_wrapper: Any) -> None:
         """Comprova que render funciona correctament amb un únic chunk."""
         mock_wrapper_instance = mock_mermaid_wrapper.return_value
@@ -49,7 +49,7 @@ class TestMermaidRenderer(unittest.TestCase):
         self.assertEqual(mock_wrapper_instance.render_to_svg.call_count, 1)
         mock_wrapper_instance.render_to_svg.assert_called_once_with("http://example.com/diagram_0.svg", "endpoint")
 
-    @patch("src.markdown.mermaid.MermaidWrapper")
+    @patch("md_mermaid_pdf.markdown.mermaid.MermaidWrapper")
     def test_render_multiple_chunks(self, mock_mermaid_wrapper: Any) -> None:
         """Comprova que render divideix el codi en múltiples chunks."""
         mock_wrapper_instance = mock_mermaid_wrapper.return_value

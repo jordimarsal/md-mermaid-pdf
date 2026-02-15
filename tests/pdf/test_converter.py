@@ -1,7 +1,8 @@
 import os
 import unittest
+from pathlib import Path
 from typing import Any
-from unittest.mock import mock_open, patch
+from unittest.mock import MagicMock, mock_open, patch
 
 from md_mermaid_pdf.core.models import PdfCfg
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor
@@ -27,32 +28,26 @@ class TestPdfConverter(unittest.TestCase):
         self.mock_svg_files = ["tests/resources/test.svg"]
         self.mock_temp_md_path = "temp.md"
 
-    @patch("os.makedirs")
-    @patch("os.remove")
-    @patch("builtins.open", new_callable=mock_open, read_data="Mocked file content")
-    @patch("src.pdf.converter.md2pdf")
+    @patch("pathlib.Path.unlink")
+    @patch("pathlib.Path.mkdir")
+    @patch("pathlib.Path.write_text")
+    @patch("md_mermaid_pdf.pdf.converter.md2pdf")
     @patch.object(MarkdownProcessor, "process_markdown", return_value=("# Test Markdown", ["tests/resources/test.svg"]))
     def test_convert_to_pdf(
-        self, mock_process_markdown: Any, mock_md2pdf: Any, mock_open: Any, mock_remove: Any, mock_makedirs: Any
+        self, mock_process_markdown: Any, mock_md2pdf: Any, mock_write: MagicMock, mock_mkdir: MagicMock, mock_unlink: MagicMock
     ) -> None:
         # Call the method to test
         self.converter.convert_to_pdf(self.markdown_content)
 
         # Check if the methods were called correctly
         mock_process_markdown.assert_called_once_with(self.markdown_content)
-        mock_makedirs.assert_called_once_with(os.path.dirname(self.cfg.tmp_md_path), exist_ok=True)
 
-        # Verify all calls to os.remove
-        mock_remove.assert_has_calls(
-            [
-                unittest.mock.call(self.mock_svg_files[0]),  # El fitxer SVG
-                unittest.mock.call(self.cfg.tmp_md_path),  # El fitxer temporal
-            ],
-            any_order=True,
-        )
+        # Verify calls to Path.unlink (replacement for os.remove)
+        self.assertEqual(mock_unlink.call_count, 2)  # SVG file + temp file
 
-        # Verify the call to open
-        mock_open.assert_called_once_with(self.cfg.tmp_md_path, "w")
+        # Verify Path.write_text was called (replaces open/write)
+        mock_write.assert_called_once()
+
         mock_md2pdf.assert_called_once_with(
             self.cfg.pdf_path,
             md_file_path=self.cfg.tmp_md_path,

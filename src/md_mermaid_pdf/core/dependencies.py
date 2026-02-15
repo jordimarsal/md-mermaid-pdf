@@ -6,7 +6,7 @@ and facilitating testing.
 
 import logging
 
-from md_mermaid_pdf.config import PdfConfig
+from md_mermaid_pdf.core.config import PdfConfig
 
 from md_mermaid_pdf.core.interfaces import DiagramRenderer, MarkdownProcessor
 from md_mermaid_pdf.core.logging_config import setup_logger

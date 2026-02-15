@@ -4,8 +4,8 @@ from typing import Any
 
 from mermaid import Graph, Mermaid
 
-from src.md_mermaid_pdf.core.models import ErrorHandler, PdfCfg
-from src.md_mermaid_pdf.core.utils import print_dbg
+from md_mermaid_pdf.core.models import ErrorHandler, PdfCfg
+from md_mermaid_pdf.core.utils import print_dbg
 
 # region MermaidWrapper
 

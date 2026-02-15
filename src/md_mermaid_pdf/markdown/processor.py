@@ -2,12 +2,12 @@ import logging
 import re
 
 import markdown2
-from src.md_mermaid_pdf.config import PdfConfig
+from md_mermaid_pdf.core.config import PdfConfig
 from tqdm import tqdm
 
-from src.md_mermaid_pdf.core.constants import Constants, MDContent
-from src.md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
-from src.md_mermaid_pdf.markdown.mermaid import MermaidRenderer
+from md_mermaid_pdf.core.constants import Constants, MDContent
+from md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
+from md_mermaid_pdf.markdown.mermaid import MermaidRenderer
 
 logger = logging.getLogger(__name__)
 
@@ -145,8 +145,16 @@ class MarkdownProcessor:
         return re.sub(r"<p>\s*<br\s*/?>\s*</p>", "", html_content, flags=re.IGNORECASE)
 
     def _leaf_last(self, file_path: str) -> str:
-        """Return the last part of a file path."""
-        return file_path.rsplit("/", 1)[1]
+        """Return the last part of a file path.
+
+        Args:
+            file_path: The file path to process.
+
+        Returns:
+            The filename (last part after the last /).
+        """
+        parts = file_path.rsplit("/", 1)
+        return parts[1] if len(parts) > 1 else parts[0]
 
     def _count_li_tags(self, text: str) -> int:
         """Count the number of list items in the text."""

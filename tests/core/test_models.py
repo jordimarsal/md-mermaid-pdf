@@ -46,7 +46,7 @@ class TestErrorHandler(unittest.TestCase):
         """Create a fresh ErrorHandler instance for each test."""
         self.error_handler = ErrorHandler()
 
-    @patch("src.core.models.print_error")
+    @patch("md_mermaid_pdf.core.models.print_error")
     @patch("sys.exit")
     def test_print_error_and_exit(self, mock_exit: Any, mock_print_error: Any) -> None:
         """Check that print_error_and_exit prints the error and exits with code 1."""
@@ -59,7 +59,7 @@ class TestErrorHandler(unittest.TestCase):
         self.error_handler.add_error("Test error")
         self.assertIn("Test error", self.error_handler.errors)
 
-    @patch("src.core.models.print_error")
+    @patch("md_mermaid_pdf.core.models.print_error")
     @patch("sys.exit")
     def test_print_errors(self, mock_exit: Any, mock_print_error: Any) -> None:
         """Check that print_errors prints all errors and exits with code 1."""
