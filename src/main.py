@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python
 
+import logging
 
 import click
 
-from src.md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
-from src.md_mermaid_pdf.core.validation import cli_settings
-from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
-from src.md_mermaid_pdf.pdf.converter import PdfConverter
+from md_mermaid_pdf.core.logging_config import setup_logger
+from md_mermaid_pdf.core.models import ErrorHandler, PdfCfg, PdfOptions
+from md_mermaid_pdf.core.validation import cli_settings
+from md_mermaid_pdf.markdown.processor import MarkdownProcessor
+
+from md_mermaid_pdf.pdf.converter import PdfConverter
 
 
 @click.command()
@@ -24,13 +26,24 @@ def run(md_path: str, pdf_path: str, css_path: str, base_url: str, debug: bool) 
 
 
 def main(cfg: PdfCfg) -> None:
+    # Setup logging
+    log_level = logging.DEBUG if cfg.is_debug else logging.INFO
+    logger = setup_logger("md_mermaid_pdf", level=log_level)
+
+    logger.info("Starting md_mermaid_pdf")
+    logger.debug("Configuration: %s", cfg)
+
     with open(cfg.md_path) as f:
         markdown_content = f.read()
 
     processor = MarkdownProcessor(cfg)
     converter = PdfConverter(cfg, processor)
     converter.convert_to_pdf(markdown_content)
-    ErrorHandler.print_errors()
+
+    # Check for errors
+    error_handler = ErrorHandler()
+    if error_handler.errors:
+        error_handler.print_errors()
 
 
 if __name__ == "__main__":

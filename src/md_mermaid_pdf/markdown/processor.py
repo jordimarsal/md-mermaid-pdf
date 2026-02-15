@@ -1,3 +1,4 @@
+import logging
 import re
 
 import markdown2
@@ -5,9 +6,10 @@ from tqdm import tqdm
 
 from src.md_mermaid_pdf.core.constants import Constants, MDContent
 from src.md_mermaid_pdf.core.models import PdfCfg
-
 from src.md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
 from src.md_mermaid_pdf.markdown.mermaid import MermaidRenderer
+
+logger = logging.getLogger(__name__)
 
 # region MarkdownProcessor
 
@@ -54,8 +56,9 @@ class MarkdownProcessor:
         html_content = self._wrap_intervals_with_div(md_content, length_mermaid)
         html_content = self._enhance_to_html_links(html_content)
         if self.cfg.is_debug:
-            # print 5 greater values of length_mermaid, print also the keys
-            print(sorted(length_mermaid.items(), key=lambda x: x[1], reverse=True)[:5])
+            # Log 5 greater values of length_mermaid with their keys
+            top_dimensions = sorted(length_mermaid.items(), key=lambda x: x[1], reverse=True)[:5]
+            logger.debug(f"Top 5 diagram dimensions: {top_dimensions}")
         return html_content, svg_files
 
     def _get_clean_code(self, code: str) -> str:

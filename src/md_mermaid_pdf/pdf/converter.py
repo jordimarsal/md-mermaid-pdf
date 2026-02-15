@@ -1,9 +1,12 @@
+import logging
 import os
 
 from md2pdf import md2pdf
 
 from src.md_mermaid_pdf.core.models import PdfCfg
 from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
+
+logger = logging.getLogger(__name__)
 
 
 class PdfConverter:
@@ -25,21 +28,26 @@ class PdfConverter:
         os.makedirs(os.path.dirname(temp), exist_ok=True)
         with open(temp, "w") as f:
             f.write(processed_content)
-        f.close()
 
         if self.cfg.is_debug:
-            input("\rPress Enter to continue...")
-        print("\rConverting to PDF...")
+            logger.debug("Processed markdown written to temp file: %s", temp)
+
+        logger.info("Converting to PDF...")
 
         # Converts the processed Markdown to PDF
         md2pdf(self.cfg.pdf_path, md_file_path=temp, css_file_path=self.cfg.css_path, base_url=self.cfg.base_url)
 
-        print("Cleaning up...")
+        logger.info("Cleaning up...")
         self.cleaning(svg_files, temp)
 
     def cleaning(self, svg_files: list[str], temp: str) -> None:
-        # Clean up the generated SVG files and the temp file
+        """Clean up the generated SVG files and the temp file.
+
+        Args:
+            svg_files: List of SVG file paths to remove.
+            temp: Path to the temporary markdown file to remove.
+        """
         for svg_file in svg_files:
             os.remove(svg_file)
         os.remove(temp)
-        print("Done cleaning up.")
+        logger.debug("Cleaned up %d SVG files and temp file", len(svg_files))
