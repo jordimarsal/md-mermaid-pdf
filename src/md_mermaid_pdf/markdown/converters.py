@@ -21,8 +21,7 @@ class MarkdownToHtmlConverter:
         Returns:
             The HTML string.
         """
-        result: str = markdown2.markdown(md_content)  # type: ignore[no-any-return]
-        return result
+        return markdown2.markdown(md_content)  # type: ignore[no-any-return]
 
 
 class ContentCleaner:

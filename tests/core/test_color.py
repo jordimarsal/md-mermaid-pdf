@@ -1,7 +1,6 @@
 import unittest
 
 from colorama import Fore
-
 from src.core.color import RED, colour, disable_colors, enable_colors, is_enabled
 
 

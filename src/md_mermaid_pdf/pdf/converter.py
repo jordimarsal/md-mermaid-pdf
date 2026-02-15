@@ -2,10 +2,10 @@ import logging
 from pathlib import Path
 
 from md2pdf import md2pdf
-from md_mermaid_pdf.config import PdfConfig
+from src.md_mermaid_pdf.config import PdfConfig
 
-from md_mermaid_pdf.core.exceptions import FileOperationError
-from md_mermaid_pdf.markdown.processor import MarkdownProcessor
+from src.md_mermaid_pdf.core.exceptions import FileOperationError
+from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
 logger = logging.getLogger(__name__)
 

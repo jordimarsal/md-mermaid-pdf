@@ -24,7 +24,7 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
+MANIFEST*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -70,6 +70,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/
 
 # PyBuilder
 .pybuilder/
@@ -176,3 +177,5 @@ cython_debug/
 uv.lock
 # pipenv
 output/
+*.xml
+COD*

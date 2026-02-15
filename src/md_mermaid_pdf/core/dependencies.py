@@ -8,7 +8,7 @@ import logging
 
 from md_mermaid_pdf.config import PdfConfig
 
-from md_mermaid_pdf.core.interfaces import DiagramRenderer, Logger, MarkdownProcessor
+from md_mermaid_pdf.core.interfaces import DiagramRenderer, MarkdownProcessor
 from md_mermaid_pdf.core.logging_config import setup_logger
 from md_mermaid_pdf.markdown.mermaid import MermaidRenderer
 from md_mermaid_pdf.markdown.processor import MarkdownProcessor as MarkdownProcessorImpl
@@ -28,9 +28,9 @@ class ServiceContainer:
             config: The application configuration.
         """
         self._config = config
-        self._logger: Logger | None = None
+        self._logger: logging.Logger | None = None
 
-    def create_logger(self) -> Logger:
+    def create_logger(self) -> logging.Logger:
         """Create or retrieve the logger instance.
 
         Returns:
@@ -47,8 +47,7 @@ class ServiceContainer:
         Returns:
             A MermaidRenderer instance.
         """
-        renderer: DiagramRenderer = MermaidRenderer(self._config)  # type: ignore[return-value]
-        return renderer
+        return MermaidRenderer(self._config)  # type: ignore[return-value]
 
     def create_processor(self, renderer: DiagramRenderer | None = None) -> MarkdownProcessor:
         """Create a markdown processor instance.
@@ -61,5 +60,4 @@ class ServiceContainer:
         """
         if renderer is None:
             renderer = self.create_renderer()
-        processor: MarkdownProcessor = MarkdownProcessorImpl(self._config)  # type: ignore[return-value]
-        return processor
+        return MarkdownProcessorImpl(self._config)  # type: ignore[return-value]

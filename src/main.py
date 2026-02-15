@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import logging
 
 import click
-
 from md_mermaid_pdf.config import PdfConfig
+
+from md_mermaid_pdf.core.dependencies import ServiceContainer
 from md_mermaid_pdf.core.exceptions import FileOperationError
 from md_mermaid_pdf.core.models import ErrorHandler
 from md_mermaid_pdf.core.validation import cli_settings
 from md_mermaid_pdf.pdf.converter import PdfConverter
-from src.md_mermaid_pdf.core.dependencies import ServiceContainer
 
 
 @click.command()
