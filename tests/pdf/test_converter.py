@@ -75,3 +75,4 @@ class TestPdfConverter(unittest.TestCase):
         with self.assertRaises(Exception) as cm:
             conv.convert_to_pdf(self.markdown_content)
         self.assertIn("Error writing temp file", str(cm.exception))
+
