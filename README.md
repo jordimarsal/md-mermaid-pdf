@@ -33,3 +33,11 @@ coverage report
 coverage html
 xdg-open htmlcov/index.html # open in browser (linux)
 ```
+
+## Continuous integration
+
+- CI runs on GitHub Actions: `ruff`, `mypy`, `pre-commit`, `pytest` + `coverage` (threshold **85%**).
+
+![CI](https://github.com/jordimarsal/md-mermaid-pdf/actions/workflows/ci.yml/badge.svg)
+
+
