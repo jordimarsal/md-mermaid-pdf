@@ -6,7 +6,6 @@ content for page breaks. It isolates the processing logic so the
 """
 
 import logging
-from typing import List
 
 from tqdm import tqdm
 
@@ -53,7 +52,7 @@ class MarkdownProcessingService:
         Returns:
             A tuple of (processed HTML, list of generated SVG file paths).
         """
-        svg_files: List[str] = []
+        svg_files: list[str] = []
         diagram_heights: dict[str, int] = {}
 
         mermaid_blocks = self.extractor.extract_mermaid_blocks(md_content)
