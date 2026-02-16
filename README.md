@@ -1,3 +1,5 @@
+![CI](https://github.com/jordimarsal/md-mermaid-pdf/actions/workflows/ci.yml/badge.svg) [![Codecov](https://codecov.io/gh/jordimarsal/md-mermaid-pdf/branch/main/graph/badge.svg)](https://codecov.io/gh/jordimarsal/md-mermaid-pdf)
+
 # md_mermaid_pdf
 
 **md_mermaid_pdf** is a Python tool that automates renderization of a Markdown file with mermaid code, as sequence diagrams, to a PDF with SVG images
