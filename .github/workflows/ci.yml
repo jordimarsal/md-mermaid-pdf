@@ -40,7 +40,18 @@ jobs:
       - name: Run tests + coverage
         run: |
           coverage run -m pytest
+          coverage xml -i
           coverage report -m
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+          flags: unittests
+          fail_ci_if_error: true
+        env:
+          # Optional for public repos; set CODECOV_TOKEN secret for private repos
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Enforce coverage >= 85%
         run: |

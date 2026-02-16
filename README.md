@@ -40,4 +40,6 @@ xdg-open htmlcov/index.html # open in browser (linux)
 
 ![CI](https://github.com/jordimarsal/md-mermaid-pdf/actions/workflows/ci.yml/badge.svg)
 
+[![Codecov](https://codecov.io/gh/jordimarsal/md-mermaid-pdf/branch/main/graph/badge.svg)](https://codecov.io/gh/jordimarsal/md-mermaid-pdf)
+
 
