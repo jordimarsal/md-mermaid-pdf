@@ -54,17 +54,4 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Enforce coverage >= 85%
-        run: |
-          python - <<'PY'
-            import re, sys, subprocess
-            out = subprocess.check_output(["coverage", "report", "-m"]).decode()
-            m = re.search(r"TOTAL\s+\d+\s+\d+\s+(\d+)%", out)
-            if not m:
-                print(out)
-                sys.exit(1)
-            pct = int(m.group(1))
-            print("coverage", pct)
-            if pct < 85:
-                print("Coverage below threshold")
-                sys.exit(1)
-          PY
+        run: coverage report -m --fail-under=85
