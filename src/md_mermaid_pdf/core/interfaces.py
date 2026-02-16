@@ -4,95 +4,43 @@ This module defines the contracts that components must implement,
 following the Dependency Inversion Principle.
 """
 
-from abc import ABC, abstractmethod
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 
-class DiagramRenderer(ABC):
-    """Abstract base class for diagram rendering.
+@runtime_checkable
+class DiagramRenderer(Protocol):
+    """Protocol for diagram rendering.
 
-    Implementations must provide methods to render individual diagrams
-    and batches of diagrams.
+    Structural interface used for dependency injection and testing.
     """
 
-    @abstractmethod
-    def render(self, index: int, code: str, base_url: str, endpoint: str) -> tuple[list[str], list[int]]:
-        """Render a single diagram.
+    def render(self, index: int, code: str, base_url: str, endpoint: str) -> tuple[list[str], list[int]]: ...
 
-        Args:
-            index: The diagram index.
-            code: The diagram code to render.
-            base_url: Base URL for resources.
-            endpoint: The endpoint identifier.
-
-        Returns:
-            A tuple of (list of SVG file paths, list of heights).
-        """
-        pass
-
-    @abstractmethod
-    def render_batch(self, blocks: list[tuple[int, str]]) -> list[tuple[list[str], list[int]]]:
-        """Render multiple diagrams.
-
-        Args:
-            blocks: List of (index, code) tuples.
-
-        Returns:
-            List of (SVG paths, heights) tuples.
-        """
-        pass
+    def render_batch(self, blocks: list[tuple[int, str]]) -> list[tuple[list[str], list[int]]]: ...
 
 
-class MarkdownProcessor(ABC):
-    """Abstract base class for markdown processing.
+@runtime_checkable
+class MarkdownProcessor(Protocol):
+    """Protocol for markdown processing.
 
-    Implementations must process markdown content and return HTML
-    with rendered diagrams.
+    Structural interface for processors (supports duck-typing / mocks).
     """
 
-    @abstractmethod
-    def process(self, md_content: str) -> tuple[str, list[str]]:
-        """Process markdown content.
-
-        Args:
-            md_content: The markdown content to process.
-
-        Returns:
-            A tuple of (processed HTML, list of SVG file paths).
-        """
-        pass
+    def process(self, md_content: str) -> tuple[str, list[str]]: ...
 
 
-class ErrorHandler(ABC):
-    """Abstract base class for error handling.
+@runtime_checkable
+class ErrorHandler(Protocol):
+    """Protocol for error handling.
 
-    Implementations must handle errors with logging and optional
-    user notification.
+    Use for DI-friendly error handler implementations.
     """
 
-    @abstractmethod
-    def handle_error(self, error: Exception, context: str) -> None:
-        """Handle an error.
+    def handle_error(self, error: Exception, context: str) -> None: ...
 
-        Args:
-            error: The exception to handle.
-            context: Additional context about where the error occurred.
-        """
-        pass
+    def add_error(self, msg: str) -> None: ...
 
-    @abstractmethod
-    def add_error(self, msg: str) -> None:
-        """Add an error message.
-
-        Args:
-            msg: The error message to add.
-        """
-        pass
-
-    @abstractmethod
-    def print_errors(self) -> None:
-        """Print all collected errors and exit."""
-        pass
+    def print_errors(self) -> None: ...
 
 
 class Logger(Protocol):

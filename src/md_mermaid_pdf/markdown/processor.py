@@ -8,7 +8,11 @@ import logging
 
 from ..core.config import PdfConfig
 from ..core.constants import MDContent
+from ..core.interfaces import DiagramRenderer
 from ..core.interfaces import MarkdownProcessor as MarkdownProcessorABC
+from .content_wrapper import ContentWrapper
+from .extractor import MarkdownExtractor
+from .html_converter import HtmlConverter
 from .processing_service import MarkdownProcessingService
 
 logger = logging.getLogger(__name__)
@@ -19,17 +23,26 @@ class MarkdownProcessor(MarkdownProcessorABC):
 
     This class now delegates the processing work to
     `MarkdownProcessingService` (SRP). Public API is unchanged.
+
+    Attributes are annotated for static typing and DI support.
     """
 
-    def __init__(self, cfg: PdfConfig) -> None:
+    renderer: DiagramRenderer
+    extractor: MarkdownExtractor
+    html_converter: HtmlConverter
+    content_wrapper: ContentWrapper
+
+    def __init__(self, cfg: PdfConfig, renderer: DiagramRenderer | None = None) -> None:
         """Initialize the processor with configuration.
 
         Args:
             cfg: The PDF configuration.
+            renderer: Optional diagram renderer to inject (DIP). If not
+                provided the processor will create the default renderer.
         """
         self.cfg = cfg
-        # Delegate the processing logic to the service (keeps SRP)
-        self._service = MarkdownProcessingService(cfg)
+        # Allow injection of renderer for testability and DI
+        self._service = MarkdownProcessingService(cfg, renderer=renderer)
         # expose the same attributes for backward compatibility / tests
         self.renderer = self._service.renderer
         self.extractor = self._service.extractor

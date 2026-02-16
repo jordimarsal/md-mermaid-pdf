@@ -59,4 +59,6 @@ class ServiceContainer:
         """
         if renderer is None:
             renderer = self.create_renderer()
-        return MarkdownProcessorImpl(self._config)
+        # Pass the renderer into the processor implementation so it can be
+        # injected into the processing service (DIP).
+        return MarkdownProcessorImpl(self._config, renderer=renderer)
