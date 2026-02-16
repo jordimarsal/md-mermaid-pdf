@@ -1,27 +1,28 @@
 import logging
-from pathlib import Path
 
 from md2pdf import md2pdf
 
 from ..core.config import PdfConfig
 from ..core.exceptions import FileOperationError
 from ..core.interfaces import MarkdownProcessor as MarkdownProcessorABC
+from ..io.adapters import FileSystemAdapter, PathFileSystemAdapter
 
 logger = logging.getLogger(__name__)
 
 
 class PdfConverter:
     """
-    This class converts Markdown content to PDF.
-    It uses the MarkdownProcessor interface to process the Markdown content and then converts it to PDF.
-    It uses the md2pdf library to convert the processed Markdown to PDF.
-
-    Depends on the abstract `MarkdownProcessor` (DIP) rather than a concrete implementation.
+    Convert processed Markdown to PDF while keeping filesystem operations
+    behind a small adapter so the conversion logic is pure and easy to test.
     """
 
-    def __init__(self, cfg: PdfConfig, processor: MarkdownProcessorABC) -> None:
+    def __init__(
+        self, cfg: PdfConfig, processor: MarkdownProcessorABC, fs_adapter: FileSystemAdapter | None = None
+    ) -> None:
         self.cfg = cfg
         self.processor = processor
+        # default adapter uses pathlib.Path (keeps runtime behaviour unchanged)
+        self._fs: FileSystemAdapter = fs_adapter or PathFileSystemAdapter()
 
     def convert_to_pdf(self, markdown_content: str) -> None:
         # Prefer backward-compatible `process_markdown` when present (tests rely on it),
@@ -34,8 +35,8 @@ class PdfConverter:
         # Temp file to store the processed Markdown
         temp = self.cfg.tmp_md_path
         try:
-            Path(temp).parent.mkdir(parents=True, exist_ok=True)
-            Path(temp).write_text(processed_content, encoding="utf-8")
+            self._fs.mkdir_parent(temp)
+            self._fs.write_text(temp, processed_content, encoding="utf-8")
         except OSError as e:
             raise FileOperationError(f"Error writing temp file: {e}", temp)
 
@@ -51,13 +52,8 @@ class PdfConverter:
         self.cleanup(svg_files, temp)
 
     def cleanup(self, svg_files: list[str], temp: str) -> None:
-        """Clean up the generated SVG files and the temp file.
-
-        Args:
-            svg_files: List of SVG file paths to remove.
-            temp: Path to the temporary markdown file to remove.
-        """
+        """Clean up the generated SVG files and the temp file."""
         for svg_file in svg_files:
-            Path(svg_file).unlink()
-        Path(temp).unlink()
+            self._fs.unlink(svg_file)
+        self._fs.unlink(temp)
         logger.debug("Cleaned up %d SVG files and temp file", len(svg_files))

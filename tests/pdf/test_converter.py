@@ -22,23 +22,23 @@ class TestPdfConverter(unittest.TestCase):
             debug=False,
         )
         self.processor = MarkdownProcessor(self.cfg)
-        self.converter = PdfConverter(self.cfg, self.processor)
+        # provide a mocked filesystem adapter so no real filesystem ops happen
+        self.fs_adapter = MagicMock()
+        self.fs_adapter.mkdir_parent = MagicMock()
+        self.fs_adapter.write_text = MagicMock()
+        self.fs_adapter.unlink = MagicMock()
+
+        self.converter = PdfConverter(self.cfg, self.processor, fs_adapter=self.fs_adapter)
         self.markdown_content = "# Test Markdown\n\n```mermaid\ngraph TD;\nA-->B;\n```\n"
         self.mock_svg_files = ["tests/resources/test.svg"]
         self.mock_temp_md_path = "temp.md"
 
-    @patch("pathlib.Path.unlink")
-    @patch("pathlib.Path.mkdir")
-    @patch("pathlib.Path.write_text")
     @patch("src.md_mermaid_pdf.pdf.converter.md2pdf")
     @patch.object(MarkdownProcessor, "process_markdown", return_value=("# Test Markdown", ["tests/resources/test.svg"]))
     def test_convert_to_pdf(
         self,
         mock_process_markdown: Any,
         mock_md2pdf: Any,
-        mock_write: MagicMock,
-        _mock_mkdir: MagicMock,
-        mock_unlink: MagicMock,
     ) -> None:
         # Call the method to test
         self.converter.convert_to_pdf(self.markdown_content)
@@ -46,11 +46,11 @@ class TestPdfConverter(unittest.TestCase):
         # Check if the methods were called correctly
         mock_process_markdown.assert_called_once_with(self.markdown_content)
 
-        # Verify calls to Path.unlink (replacement for os.remove)
-        self.assertEqual(mock_unlink.call_count, 2)  # SVG file + temp file
+        # Verify calls to the filesystem adapter (SVG file + temp file)
+        self.assertEqual(self.fs_adapter.unlink.call_count, 2)
 
-        # Verify Path.write_text was called (replaces open/write)
-        mock_write.assert_called_once()
+        # Verify write_text was called with temp path and processed content
+        self.fs_adapter.write_text.assert_called_once_with(self.cfg.tmp_md_path, "# Test Markdown", encoding="utf-8")
 
         mock_md2pdf.assert_called_once_with(
             self.cfg.pdf_path,

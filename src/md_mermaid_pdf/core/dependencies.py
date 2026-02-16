@@ -5,12 +5,18 @@ and facilitating testing.
 """
 
 import logging
+from typing import TYPE_CHECKING
 
 from ..markdown.mermaid import MermaidRenderer
 from ..markdown.processor import MarkdownProcessor as MarkdownProcessorImpl
 from .config import PdfConfig
 from .interfaces import DiagramRenderer, MarkdownProcessor
 from .logging_config import setup_logger
+
+if TYPE_CHECKING:
+    # typing-only import to avoid runtime circular dependency while keeping
+    # a proper return annotation for `create_filesystem_adapter`.
+    from ..io.adapters import FileSystemAdapter
 
 
 class ServiceContainer:
@@ -62,3 +68,14 @@ class ServiceContainer:
         # Pass the renderer into the processor implementation so it can be
         # injected into the processing service (DIP).
         return MarkdownProcessorImpl(self._config, renderer=renderer)
+
+    def create_filesystem_adapter(self) -> "FileSystemAdapter":
+        """Create the default filesystem adapter (used by runtime components).
+
+        Tests can inject mocks in place of this adapter to avoid touching the
+        real filesystem.
+        """
+        # Import locally to avoid circular imports at module import time.
+        from ..io.adapters import PathFileSystemAdapter
+
+        return PathFileSystemAdapter()
