@@ -68,6 +68,19 @@ exclude = [
     "__pycache__",
 ]
 
+# External libraries without stubs: silence import-not-found in mypy
+[tool.mypy."markdown2"]
+ignore_missing_imports = true
+
+[tool.mypy."md2pdf"]
+ignore_missing_imports = true
+
+[tool.mypy."mermaid"]
+ignore_missing_imports = true
+
+[tool.mypy."tqdm"]
+ignore_missing_imports = true
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

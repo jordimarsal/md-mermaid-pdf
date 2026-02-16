@@ -50,9 +50,9 @@ a:hover {
 
 .modern-link {
   text-decoration: none;
-  color: #3498db; 
+  color: #3498db;
   font-weight: bold;
-  font-family: 'Arial', sans-serif; 
+  font-family: 'Arial', sans-serif;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 

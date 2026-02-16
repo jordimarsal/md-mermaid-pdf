@@ -95,4 +95,3 @@ uv run src/main.py docs/diagrams.md docs/output.pdf resources/style.css https://
 ![CI](https://github.com/jordimarsal/md-mermaid-pdf/actions/workflows/ci.yml/badge.svg)
 
 [![Codecov](https://codecov.io/gh/jordimarsal/md-mermaid-pdf/branch/main/graph/badge.svg)](https://codecov.io/gh/jordimarsal/md-mermaid-pdf)
-
