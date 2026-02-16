@@ -3,9 +3,9 @@ import unittest
 from typing import Any
 from unittest.mock import MagicMock, patch
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.markdown.processor import MarkdownProcessor
-from md_mermaid_pdf.pdf.converter import PdfConverter
+from src.md_mermaid_pdf.core.config import PdfConfig
+from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
+from src.md_mermaid_pdf.pdf.converter import PdfConverter
 
 
 class TestPdfConverter(unittest.TestCase):
@@ -30,7 +30,7 @@ class TestPdfConverter(unittest.TestCase):
     @patch("pathlib.Path.unlink")
     @patch("pathlib.Path.mkdir")
     @patch("pathlib.Path.write_text")
-    @patch("md_mermaid_pdf.pdf.converter.md2pdf")
+    @patch("src.md_mermaid_pdf.pdf.converter.md2pdf")
     @patch.object(MarkdownProcessor, "process_markdown", return_value=("# Test Markdown", ["tests/resources/test.svg"]))
     def test_convert_to_pdf(
         self,

@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.markdown.processing_service import MarkdownProcessingService
+from src.md_mermaid_pdf.core.config import PdfConfig
+from src.md_mermaid_pdf.markdown.processing_service import MarkdownProcessingService
 
 
 class TestMarkdownProcessingService(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestMarkdownProcessingService(unittest.TestCase):
         )
         self.service = MarkdownProcessingService(self.cfg)
 
-    @patch("md_mermaid_pdf.markdown.mermaid.MermaidWrapper")
+    @patch("src.md_mermaid_pdf.markdown.mermaid.MermaidWrapper")
     def test_process(self, mock_wrapper: MagicMock) -> None:
         mock_wrapper_instance = mock_wrapper.return_value
         mock_wrapper_instance.render_to_svg.return_value = "diagram_0.svg"

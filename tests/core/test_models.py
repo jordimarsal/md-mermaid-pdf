@@ -2,9 +2,9 @@ import unittest
 from typing import Any
 from unittest.mock import patch
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.core.constants import Constants
-from md_mermaid_pdf.core.models import ErrorCollector, PdfOptions
+from src.md_mermaid_pdf.core.config import PdfConfig
+from src.md_mermaid_pdf.core.constants import Constants
+from src.md_mermaid_pdf.core.models import ErrorCollector, PdfOptions
 
 
 class TestPdfOptions(unittest.TestCase):
@@ -47,7 +47,7 @@ class TestErrorCollector(unittest.TestCase):
         """Create a fresh ErrorCollector instance for each test."""
         self.error_handler = ErrorCollector()
 
-    @patch("md_mermaid_pdf.core.models.print_error")
+    @patch("src.md_mermaid_pdf.core.models.print_error")
     @patch("sys.exit")
     def test_print_error_and_exit(self, mock_exit: Any, mock_print_error: Any) -> None:
         """Check that print_error_and_exit prints the error and exits with code 1."""
@@ -60,7 +60,7 @@ class TestErrorCollector(unittest.TestCase):
         self.error_handler.add_error("Test error")
         self.assertIn("Test error", self.error_handler.errors)
 
-    @patch("md_mermaid_pdf.core.models.print_error")
+    @patch("src.md_mermaid_pdf.core.models.print_error")
     def test_print_errors(self, mock_print_error: Any) -> None:
         """Check that print_errors prints all errors."""
         self.error_handler.add_error("Error 1")

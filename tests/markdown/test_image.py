@@ -1,7 +1,7 @@
 import unittest
 
-from md_mermaid_pdf.core.constants import Constants
-from md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
+from src.md_mermaid_pdf.core.constants import Constants
+from src.md_mermaid_pdf.markdown.image import ImageSkeletonBuilder
 
 
 class TestImageSkeletonBuilder(unittest.TestCase):

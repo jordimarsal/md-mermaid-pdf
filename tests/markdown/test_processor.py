@@ -1,11 +1,11 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from md_mermaid_pdf.core.config import PdfConfig
-from md_mermaid_pdf.markdown.content_wrapper import ContentWrapper
-from md_mermaid_pdf.markdown.extractor import MarkdownExtractor
-from md_mermaid_pdf.markdown.html_converter import HtmlConverter
-from md_mermaid_pdf.markdown.processor import MarkdownProcessor
+from src.md_mermaid_pdf.core.config import PdfConfig
+from src.md_mermaid_pdf.markdown.content_wrapper import ContentWrapper
+from src.md_mermaid_pdf.markdown.extractor import MarkdownExtractor
+from src.md_mermaid_pdf.markdown.html_converter import HtmlConverter
+from src.md_mermaid_pdf.markdown.processor import MarkdownProcessor
 
 
 class TestMarkdownProcessor(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestMarkdownProcessor(unittest.TestCase):
         )
         self.processor = MarkdownProcessor(self.cfg)
 
-    @patch("md_mermaid_pdf.markdown.mermaid.MermaidWrapper")
+    @patch("src.md_mermaid_pdf.markdown.mermaid.MermaidWrapper")
     def test_process_markdown(self, mock_wrapper: MagicMock) -> None:
         """Comprova que process processa correctament el contingut Markdown."""
         # Mock the wrapper to avoid actual file operations
