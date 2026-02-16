@@ -73,11 +73,6 @@ uv run src/main.py docs/diagrams.md docs/output.pdf resources/style.css https://
 - Fork → feature branch → open PR. CI enforces style and type checks; add tests for new behavior.
 - Keep changes small and focused (we follow the PR-by-PR plan in `docs/plans/2026-02-15-refactoritzacio-detallat.md`).
 
-## CI / Coverage notes
-
-- CI uploads coverage to Codecov; set `CODECOV_TOKEN` in repository secrets if your repo is private.
-- Coverage gate is enforced at **85%** for the `md_mermaid_pdf` package.
-
 ## Troubleshooting
 
 - If `mermaid-py` fails to render, run with `--debug` to get more logs and inspect generated SVGs in `output/`.
@@ -87,6 +82,11 @@ uv run src/main.py docs/diagrams.md docs/output.pdf resources/style.css https://
 
 - MIT — see `LICENSE`.
 - Maintainer: Jordi Marçal — marcaljordi@gmail.com
+
+## CI / Coverage notes
+
+- CI uploads coverage to Codecov; set `CODECOV_TOKEN` in repository secrets if your repo is private.
+- Coverage gate is enforced at **85%** for the `md_mermaid_pdf` package.
 
 ## Continuous integration
 
