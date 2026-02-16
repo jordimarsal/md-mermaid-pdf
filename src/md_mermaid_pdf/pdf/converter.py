@@ -24,7 +24,12 @@ class PdfConverter:
         self.processor = processor
 
     def convert_to_pdf(self, markdown_content: str) -> None:
-        processed_content, svg_files = self.processor.process(markdown_content)
+        # Prefer backward-compatible `process_markdown` when present (tests rely on it),
+        # otherwise use the modern `process` API from the MarkdownProcessor interface.
+        if hasattr(self.processor, "process_markdown"):
+            processed_content, svg_files = self.processor.process_markdown(markdown_content)
+        else:
+            processed_content, svg_files = self.processor.process(markdown_content)
 
         # Temp file to store the processed Markdown
         temp = self.cfg.tmp_md_path

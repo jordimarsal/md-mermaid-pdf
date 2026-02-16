@@ -6,11 +6,11 @@ and facilitating testing.
 
 import logging
 
+from ..markdown.mermaid import MermaidRenderer
+from ..markdown.processor import MarkdownProcessor as MarkdownProcessorImpl
 from .config import PdfConfig
 from .interfaces import DiagramRenderer, MarkdownProcessor
 from .logging_config import setup_logger
-from ..markdown.mermaid import MermaidRenderer
-from ..markdown.processor import MarkdownProcessor as MarkdownProcessorImpl
 
 
 class ServiceContainer:
