@@ -26,6 +26,15 @@ class TestServiceContainer(unittest.TestCase):
         processor = sc.create_processor()
         self.assertTrue(hasattr(processor, "process"))
 
+    def test_create_filesystem_adapter_returns_adapter(self) -> None:
+        cfg = PdfConfig(md_path="a.md", pdf_path="b.pdf", css_path="c.css", base_url=".", debug=False)
+        sc = ServiceContainer(cfg)
+        adapter = sc.create_filesystem_adapter()
+        # adapter should provide the minimal fs operations used by the app
+        self.assertTrue(hasattr(adapter, "mkdir_parent"))
+        self.assertTrue(hasattr(adapter, "write_text"))
+        self.assertTrue(hasattr(adapter, "unlink"))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -38,19 +38,26 @@ class MermaidWrapper:
         if self.is_debug:
             print_dbg(f"Generating diagram for endpoint: {endpoint}")
             print_dbg(f"\n              Mermaid code: {self.graph.script}")
-        if response := self._get_internal_variable("svg_response"):
-            if response.status_code == 200:
-                self.diagram.to_svg(svg_file_path)
-                return svg_file_path
-        else:
-            svg_response = self._get_internal_variable("svg_response")
-            if svg_response.status_code == 404:
-                msg = f"Error for {endpoint}: {svg_response}, maybe the diagram include character:'?'"
+
+        response = self._get_internal_variable("svg_response")
+        # success path
+        if response and response.status_code == 200:
+            self.diagram.to_svg(svg_file_path)
+            return svg_file_path
+
+        # handle non-200 responses when the wrapper provides a response
+        if response:
+            if response.status_code == 404:
+                msg = f"Error for {endpoint}: {response}, maybe the diagram include character:'?'"
                 self.error_handler.add_error(msg)
             else:
-                msg = f"Error for {endpoint}: {svg_response.reason}: {svg_response.text}"
+                msg = f"Error for {endpoint}: {response.reason}: {response.text}"
                 self.error_handler.add_error(msg)
             self.diagram.to_svg(svg_file_path)
+            return svg_file_path
+
+        # fallback: no response object available — still attempt to write svg
+        self.diagram.to_svg(svg_file_path)
         return svg_file_path
 
     def _get_internal_variable(self, variable_name: str) -> Any:

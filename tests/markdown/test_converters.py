@@ -50,6 +50,13 @@ class TestConverters(unittest.TestCase):
         self.assertIn('<div style="page-break-after: always;"><img src="big.svg"', wrapped)
         self.assertIn('style="max-height: 80%; width: 90%;"', wrapped)
 
+    def test_combine_method_and_path_rewrites_api_lines(self) -> None:
+        from src.md_mermaid_pdf.markdown.html_converter import HtmlConverter
+
+        content = "Method: GET<br>Path: /api/foo<br>"
+        out = HtmlConverter()._combine_method_and_path(content)
+        self.assertIn("GET /api/foo<br>", out)
+
 
 if __name__ == "__main__":
     unittest.main()

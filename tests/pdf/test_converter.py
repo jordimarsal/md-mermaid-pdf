@@ -58,3 +58,20 @@ class TestPdfConverter(unittest.TestCase):
             css_file_path=self.cfg.css_path,
             base_url=self.cfg.base_url,
         )
+
+    @patch.object(MarkdownProcessor, "process_markdown", return_value=("# Test Markdown", ["tests/resources/test.svg"]))
+    def test_write_failure_raises_file_operation_error(self, _mock_process_markdown: Any) -> None:
+        # make the adapter raise OSError when trying to write the temp file
+        bad_fs = MagicMock()
+        bad_fs.mkdir_parent = MagicMock()
+
+        def _write(_path: str, _content: str, _encoding: str = "utf-8") -> None:
+            raise OSError("disk full")
+
+        bad_fs.write_text = _write
+        bad_fs.unlink = MagicMock()
+
+        conv = PdfConverter(self.cfg, self.processor, fs_adapter=bad_fs)
+        with self.assertRaises(Exception) as cm:
+            conv.convert_to_pdf(self.markdown_content)
+        self.assertIn("Error writing temp file", str(cm.exception))
