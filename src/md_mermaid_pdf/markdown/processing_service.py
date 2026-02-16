@@ -6,7 +6,7 @@ content for page breaks. It isolates the processing logic so the
 """
 
 import logging
-from typing import List, Tuple
+from typing import List
 
 from tqdm import tqdm
 
@@ -16,8 +16,8 @@ from ..core.interfaces import DiagramRenderer
 from .content_wrapper import ContentWrapper
 from .extractor import MarkdownExtractor
 from .html_converter import HtmlConverter
-from .mermaid import MermaidRenderer
 from .image import ImageSkeletonBuilder
+from .mermaid import MermaidRenderer
 
 logger = logging.getLogger(__name__)
 

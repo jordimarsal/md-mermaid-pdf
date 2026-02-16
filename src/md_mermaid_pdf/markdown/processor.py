@@ -6,16 +6,9 @@ the conversion of Markdown with Mermaid diagrams to HTML.
 
 import logging
 
-from tqdm import tqdm
-
 from ..core.config import PdfConfig
 from ..core.constants import MDContent
 from ..core.interfaces import MarkdownProcessor as MarkdownProcessorABC
-from .content_wrapper import ContentWrapper
-from .extractor import MarkdownExtractor
-from .html_converter import HtmlConverter
-from .image import ImageSkeletonBuilder
-from .mermaid import MermaidRenderer
 from .processing_service import MarkdownProcessingService
 
 logger = logging.getLogger(__name__)
