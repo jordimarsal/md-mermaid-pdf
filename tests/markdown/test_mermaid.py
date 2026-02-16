@@ -15,10 +15,10 @@ class TestMermaidWrapper(unittest.TestCase):
         mock_mermaid_instance.svg_response = MagicMock(status_code=200)
 
         wrapper = MermaidWrapper("graph TD; A-->B;", is_debug=False, error_handler=None)
-        svg_path = wrapper.render_to_svg("test.svg", "http://example.com")
+        svg_path = wrapper.render_to_svg("tests/resources/test.svg", "http://example.com")
 
-        mock_mermaid_instance.to_svg.assert_called_once_with("test.svg")
-        self.assertEqual(svg_path, "test.svg")
+        mock_mermaid_instance.to_svg.assert_called_once_with("tests/resources/test.svg")
+        self.assertEqual(svg_path, "tests/resources/test.svg")
         mock_add_error.assert_not_called()
 
     @patch("src.md_mermaid_pdf.markdown.mermaid.Mermaid")
@@ -29,8 +29,8 @@ class TestMermaidWrapper(unittest.TestCase):
         mock_mermaid_instance.to_svg.assert_not_called()
 
         wrapper = MermaidWrapper("graph TD; A-->B;", is_debug=False, error_handler=None)
-        svg_path = wrapper.render_to_svg("test.svg", "http://example.com")
-        self.assertEqual(svg_path, "test.svg")
+        svg_path = wrapper.render_to_svg("tests/resources/test.svg", "http://example.com")
+        self.assertEqual(svg_path, "tests/resources/test.svg")
 
 
 class TestMermaidRenderer(unittest.TestCase):

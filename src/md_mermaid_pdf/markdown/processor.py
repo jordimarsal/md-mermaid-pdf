@@ -57,4 +57,3 @@ class MarkdownProcessor(MarkdownProcessorABC):
     def _process_markdown_impl(self, md_content: str) -> MDContent:
         """Compatibility wrapper that delegates to the processing service."""
         return self._service.process(md_content)
-
