@@ -65,7 +65,7 @@ class TestPdfConverter(unittest.TestCase):
         bad_fs = MagicMock()
         bad_fs.mkdir_parent = MagicMock()
 
-        def _write(_path: str, _content: str, _encoding: str = "utf-8") -> None:
+        def _write(_path: str, _content: str, _encoding: str = "utf-8", **_kwargs: Any) -> None:
             raise OSError("disk full")
 
         bad_fs.write_text = _write
